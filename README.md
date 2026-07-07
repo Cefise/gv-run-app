@@ -52,3 +52,22 @@ Sem painel para vocês verem o progresso da turma.
 - Login por e-mail; e-mail do comprador liberado via webhook da Kiwify
 - Dados na nuvem (multi-dispositivo) + painel admin para vocês acompanharem
 - Migração facilitada: todo dado já passa pelas funções load()/save()
+
+
+## AVALIAÇÃO BILATERAL + ASSIMETRIA (LSI) — v2.1
+Todos os testes agora medem Direita e Esquerda e o app calcula a assimetria
+automaticamente pela fórmula LSI = (maior − menor) / maior × 100.
+Ele mostra a simetria (%), a assimetria e QUAL lado está deficitário.
+- Equilíbrio unipodal: cronômetro embutido (Iniciar/Parar) por lado
+- Panturrilha unipodal: repetições D e E
+- Single Leg Bridge Test: repetições D e E (novo)
+- Step-down: repetições + "joelho cai? Sim/Não" por lado
+- Salto unipodal: 3 saltos por lado; o app faz a média e o LSI
+
+### VÍDEOS DOS TESTES
+No topo do index.html há o objeto VIDEOS_TESTES:
+```js
+const VIDEOS_TESTES = { balance:"", calf:"", bridge:"", stepdown:"", hop:"" };
+```
+Grave cada teste, suba no YouTube como "Não listado" e cole o link.
+O botão "▶ ver como fazer o teste" aparece sozinho em cada teste com link.

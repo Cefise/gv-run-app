@@ -67,6 +67,27 @@ h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercas
 .yn button.no.on{background:rgba(214,69,69,.25);border-color:rgba(214,69,69,.5);color:#fff}
 .valwrap{margin-top:10px;display:flex;align-items:center;gap:10px}
 .valwrap span{font-size:13px;color:var(--mut);white-space:nowrap}
+.de{display:flex;gap:10px;margin-top:12px}
+.de .side{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(87,160,255,.15);border-radius:12px;padding:10px}
+.sl{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--sky);margin:0 0 6px}
+.de .side input{width:100%;text-align:center;font-size:18px;font-weight:800;padding:10px}
+.un{display:block;text-align:center;font-size:11px;color:var(--mut);margin-top:4px}
+.meta{font-size:11.5px;color:var(--mut);margin-top:8px}
+.tm{text-align:center;font-size:22px;font-weight:800;color:var(--txt);padding:8px 0}
+.tbtn{width:100%;border:none;border-radius:10px;padding:9px;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(90deg,var(--blue),var(--sky));cursor:pointer}
+.tbtn.run{background:linear-gradient(90deg,#A93232,var(--red))}
+.hop3{display:flex;gap:5px}
+.hop3 input{width:100%;text-align:center;font-size:15px;font-weight:700;padding:8px 2px}
+.avg{font-size:12px;color:var(--sky);font-weight:700;margin-top:6px;text-align:center;min-height:15px}
+.fall{display:flex;align-items:center;gap:5px;margin-top:8px;flex-wrap:wrap}
+.fall span{font-size:11.5px;color:var(--mut);width:100%}
+.fb{flex:1;border:1.5px solid var(--line);background:var(--navy);color:var(--mut);border-radius:8px;padding:7px;font-weight:800;font-size:12px;cursor:pointer}
+.fb.on{background:rgba(214,69,69,.3);border-color:rgba(214,69,69,.6);color:#fff}
+.fb.onok{background:linear-gradient(90deg,#1F7A4D,var(--green));border-color:transparent;color:#fff}
+.lsi{margin-top:10px}
+.lsibar{font-size:12.5px;border-radius:10px;padding:9px 11px;line-height:1.4}
+.lsibar.ok{background:rgba(47,163,107,.16);border:1px solid rgba(47,163,107,.4);color:#CFF3E1}
+.lsibar.warn{background:rgba(227,160,8,.14);border:1px solid rgba(227,160,8,.4);color:#F3DFAE}
 .bars{display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:12px;padding-top:8px}
 .bars .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
 .bars .bar{width:70%;background:linear-gradient(180deg,var(--sky),var(--blue));border-radius:6px 6px 0 0;min-height:3px}
@@ -106,7 +127,7 @@ table.cmp td.n{color:var(--sky);font-weight:800;text-align:center;white-space:no
   <div class="card" id="nameCard">
     <span class="tag" id="onbTag">Bem-vindo(a)</span>
     <h3 id="onbTitle">Vamos configurar seu programa</h3>
-    <p>Leva 3 minutos. Primeiro seu nome, depois os 4 testes da Semana 0 para definir seu nível e medir sua evolução.</p>
+    <p>Leva 3 minutos. Primeiro seu nome, depois os testes da Semana 0 para definir seu nível e medir sua evolução.</p>
     <label>Seu nome</label>
     <input type="text" id="inName" placeholder="Como você quer ser chamado">
   </div>
@@ -236,14 +257,45 @@ const VIDEOS = {
 };
 
 /* =====================================================================
-   3) TESTES  — kind: reps | time | dist | quality
+   3b) VÍDEOS DOS TESTES — mesma lógica dos exercícios.
+   Grave o teste, suba no YouTube como "Não listado" e cole o link.
+   O botão "▶ ver como fazer o teste" aparece sozinho onde houver link.
+   ===================================================================== */
+const VIDEOS_TESTES = {
+  balance:"", calf:"", bridge:"", stepdown:"", hop:""
+};
+
+/* =====================================================================
+   3) TESTES DA AVALIAÇÃO — bilaterais (D + E) com LSI automático
+   type:
+     "reps"  -> D e E em repetições
+     "timer" -> D e E em segundos, com cronômetro embutido
+     "hop3"  -> 3 saltos por lado; app faz a média e o LSI
+     "stepq" -> D e E: repetições + "joelho cai? sim/não"
+   goal = meta por lado (para pontuar o nível)
    ===================================================================== */
 const ASSESS = [
-  {id:"balance", q:"Equilíbrio unipodal, olhos fechados", hint:"Fique numa perna, olhos fechados, e cronometre.", kind:"time", unit:"segundos", goal:30},
-  {id:"calf", q:"Panturrilha unipodal", hint:"Máximo de elevações numa perna, amplitude total.", kind:"reps", unit:"repetições", goal:20},
-  {id:"stepdown", q:"Step-down de qualidade", hint:"8 descidas lentas: o joelho cai para dentro?", kind:"quality", unit:"", goal:null},
-  {id:"hop", q:"Salto unipodal (distância)", hint:"3 saltos por perna; simetria entre lados.", kind:"dist", unit:"% de simetria", goal:90}
+  {id:"balance", q:"Equilíbrio unipodal, olhos fechados", hint:"Fique numa perna, olhos fechados. Use o cronômetro para cada lado.", type:"timer", unit:"s", goal:30},
+  {id:"calf", q:"Panturrilha unipodal", hint:"Máximo de elevações completas em cada perna.", type:"reps", unit:"reps", goal:20},
+  {id:"bridge", q:"Single Leg Bridge Test", hint:"Ponte de glúteo numa perna só; máximo de repetições em cada lado.", type:"reps", unit:"reps", goal:20},
+  {id:"stepdown", q:"Step-down de qualidade", hint:"Descidas lentas de um degrau em cada perna. O joelho cai para dentro?", type:"stepq", unit:"reps", goal:8},
+  {id:"hop", q:"Salto unipodal (distância)", hint:"3 saltos em cada perna. O app calcula a média e a assimetria (LSI).", type:"hop3", unit:"cm", goal:null}
 ];
+
+/* LSI = (maior − menor) / maior × 100  →  simetria = 100 − assimetria.
+   Retorna {sym, asym, weak} onde weak é o lado deficitário. */
+function lsi(d, e){
+  d = Number(d)||0; e = Number(e)||0;
+  if(d<=0 || e<=0) return null;
+  const hi = Math.max(d,e), lo = Math.min(d,e);
+  const sym = Math.round(lo/hi*100);
+  return { sym, asym: 100-sym, weak: d<e ? "Direita" : (e<d ? "Esquerda" : "—") };
+}
+function avg3(arr){
+  const v = (arr||[]).map(Number).filter(x=>!isNaN(x)&&x>0);
+  if(!v.length) return null;
+  return Math.round(v.reduce((a,b)=>a+b,0)/v.length);
+}
 
 const MOBILITY = [
   {id:"mob1", n:"Balanços de perna (frontal e lateral)", d:"10 / direção / lado"},
@@ -290,7 +342,33 @@ function br(d){ return d.split("-").reverse().join("/") }
 function week(){ if(!S) return 1; const days=Math.floor((new Date(today())-new Date(S.start))/864e5); return Math.min(8,Math.max(1,Math.floor(days/7)+1)); }
 function phase(){ return Math.ceil(week()/2) }
 function levelName(l){ return l==="ini"?"Iniciante":l==="av"?"Avançado":"Intermediário" }
-function scoreAssess(a){ let p=0; ASSESS.forEach(t=>{ const r=a[t.id]; if(!r||!r.yes) return; if(t.kind==="quality"){p++;} else if(r.val!==""&&r.val!=null&&Number(r.val)>=t.goal){p++;} else {p++;} }); return p; }
+/* Nível: pontua quando a MENOR das duas pernas atinge a meta (mais rígido e
+   clinicamente correto — o lado fraco é o que importa). Step-down pontua
+   quando não há valgo em nenhum lado. */
+function sideValues(t, r){
+  // returns {d, e} numeric per test type, or null
+  if(!r) return null;
+  if(t.type==="hop3") return { d:avg3(r.dArr), e:avg3(r.eArr) };
+  if(t.type==="timer"||t.type==="reps"||t.type==="stepq") return { d:Number(r.d)||0, e:Number(r.e)||0 };
+  return null;
+}
+function scoreAssess(a){
+  let p=0;
+  ASSESS.forEach(t=>{
+    const r=a[t.id]; if(!r) return;
+    if(t.type==="stepq"){
+      // pontua se joelho NÃO cai em nenhum lado
+      if(r.dFall===false && r.eFall===false) p++;
+      return;
+    }
+    const sv = sideValues(t,r); if(!sv||!sv.d||!sv.e) return;
+    if(t.goal!=null){ if(Math.min(sv.d,sv.e) >= t.goal) p++; }
+    else { // hop: pontua por simetria (LSI ≥ 90)
+      const L=lsi(sv.d,sv.e); if(L && L.sym>=90) p++;
+    }
+  });
+  return p;
+}
 function levelFromPts(p){ return p<=1?"ini":p<=3?"int":"av" }
 
 /* ================= GATE ================= */
@@ -301,27 +379,133 @@ function checkGate(){
 }
 function unlocked(){ return !ACCESS_PASSWORD || localStorage.getItem("gvrun_unlocked")==="1" }
 
-/* ================= ASSESSMENT UI ================= */
+/* ================= ASSESSMENT UI (bilateral + LSI) ================= */
+let timers = {}; // {id_side: {t0, acc, running, int}}
+
 function renderAssessInputs(){
   document.getElementById("assessList").innerHTML = ASSESS.map(t=>{
-    const needVal = t.kind!=="quality";
+    const vt = VIDEOS_TESTES[t.id];
+    const vbtn = vt ? `<a class="vid" href="${vt}" target="_blank" rel="noopener">▶ ver como fazer o teste</a>` : "";
+    let body = "";
+    if(t.type==="reps"){
+      body = pairInputs(t.id, t.unit, t.goal);
+    } else if(t.type==="timer"){
+      body = timerInputs(t.id, t.goal);
+    } else if(t.type==="hop3"){
+      body = hopInputs(t.id);
+    } else if(t.type==="stepq"){
+      body = stepInputs(t.id, t.goal);
+    }
     return `<div class="atest" data-id="${t.id}">
       <div class="q"><b>${t.q}</b><span>${t.hint}</span></div>
-      <div class="yn"><button class="yes" onclick="setYN('${t.id}',true)">Sim</button><button class="no" onclick="setYN('${t.id}',false)">Não</button></div>
-      ${needVal?`<div class="valwrap" id="vw_${t.id}" style="display:none"><input type="number" inputmode="numeric" id="val_${t.id}" placeholder="0" oninput="setVal('${t.id}',this.value)"><span>${t.unit}${t.goal?` · meta ≥ ${t.goal}`:""}</span></div>`:""}
+      ${vbtn}
+      ${body}
+      <div class="lsi" id="lsi_${t.id}"></div>
     </div>`;
   }).join("");
 }
-function setYN(id,yes){
-  assessDraft[id]=assessDraft[id]||{}; assessDraft[id].yes=yes;
-  const row=document.querySelector(`.atest[data-id="${id}"]`);
-  row.querySelector(".yes").classList.toggle("on",yes);
-  row.querySelector(".no").classList.toggle("on",!yes);
-  const vw=document.getElementById("vw_"+id); if(vw) vw.style.display=yes?"flex":"none";
-  updateLvlPreview();
+
+function pairInputs(id, unit, goal){
+  return `<div class="de">
+    <div class="side"><label class="sl">Direita</label><input type="number" inputmode="numeric" id="${id}_d" placeholder="0" oninput="setSide('${id}','d',this.value)"><span class="un">${unit}</span></div>
+    <div class="side"><label class="sl">Esquerda</label><input type="number" inputmode="numeric" id="${id}_e" placeholder="0" oninput="setSide('${id}','e',this.value)"><span class="un">${unit}</span></div>
+  </div>${goal?`<div class="meta">Meta por lado: ≥ ${goal} ${unit}</div>`:""}`;
 }
-function setVal(id,v){ assessDraft[id]=assessDraft[id]||{}; assessDraft[id].val=v; updateLvlPreview(); }
-function updateLvlPreview(){ const p=scoreAssess(assessDraft); const el=document.getElementById("lvlPreview"); if(el) el.innerHTML=`<b style="color:var(--sky)">Nível: ${levelName(levelFromPts(p))}</b> (${p} ponto${p===1?"":"s"})`; }
+
+function timerInputs(id, goal){
+  return `<div class="de">
+    <div class="side"><label class="sl">Direita</label>
+      <div class="tm" id="tm_${id}_d">0.0s</div>
+      <button class="tbtn" id="tb_${id}_d" onclick="toggleTimer('${id}','d')">Iniciar</button>
+    </div>
+    <div class="side"><label class="sl">Esquerda</label>
+      <div class="tm" id="tm_${id}_e">0.0s</div>
+      <button class="tbtn" id="tb_${id}_e" onclick="toggleTimer('${id}','e')">Iniciar</button>
+    </div>
+  </div>${goal?`<div class="meta">Meta por lado: ≥ ${goal}s</div>`:""}`;
+}
+
+function hopInputs(id){
+  const cell = (side,i)=>`<input type="number" inputmode="numeric" placeholder="${i}º" id="${id}_${side}${i}" oninput="setHop('${id}','${side}')">`;
+  return `<div class="de">
+    <div class="side"><label class="sl">Direita (3 saltos, cm)</label><div class="hop3">${cell('d',1)}${cell('d',2)}${cell('d',3)}</div><div class="avg" id="avg_${id}_d"></div></div>
+    <div class="side"><label class="sl">Esquerda (3 saltos, cm)</label><div class="hop3">${cell('e',1)}${cell('e',2)}${cell('e',3)}</div><div class="avg" id="avg_${id}_e"></div></div>
+  </div><div class="meta">O app calcula a média de cada lado e a assimetria (meta LSI ≥ 90%)</div>`;
+}
+
+function stepInputs(id, goal){
+  return `<div class="de">
+    <div class="side"><label class="sl">Direita</label>
+      <input type="number" inputmode="numeric" id="${id}_d" placeholder="reps" oninput="setSide('${id}','d',this.value)">
+      <div class="fall"><span>Joelho cai?</span><button id="${id}_df_s" class="fb" onclick="setFall('${id}','d',true)">Sim</button><button id="${id}_df_n" class="fb" onclick="setFall('${id}','d',false)">Não</button></div>
+    </div>
+    <div class="side"><label class="sl">Esquerda</label>
+      <input type="number" inputmode="numeric" id="${id}_e" placeholder="reps" oninput="setSide('${id}','e',this.value)">
+      <div class="fall"><span>Joelho cai?</span><button id="${id}_ef_s" class="fb" onclick="setFall('${id}','e',true)">Sim</button><button id="${id}_ef_n" class="fb" onclick="setFall('${id}','e',false)">Não</button></div>
+    </div>
+  </div><div class="meta">Sem valgo nos dois lados = pontua o nível</div>`;
+}
+
+/* ---- setters ---- */
+function setSide(id, side, v){
+  assessDraft[id]=assessDraft[id]||{};
+  assessDraft[id][side]=v;
+  updateLSI(id); updateLvlPreview();
+}
+function setHop(id, side){
+  assessDraft[id]=assessDraft[id]||{};
+  const arr=[1,2,3].map(i=>document.getElementById(`${id}_${side}${i}`).value);
+  assessDraft[id][side+"Arr"]=arr;
+  const a=avg3(arr);
+  document.getElementById(`avg_${id}_${side}`).textContent = a?`média: ${a} cm`:"";
+  updateLSI(id); updateLvlPreview();
+}
+function setFall(id, side, fall){
+  assessDraft[id]=assessDraft[id]||{};
+  assessDraft[id][side+"Fall"]=fall;
+  document.getElementById(`${id}_${side}f_s`).classList.toggle("on", fall===true);
+  document.getElementById(`${id}_${side}f_n`).classList.toggle("onok", fall===false);
+  updateLSI(id); updateLvlPreview();
+}
+
+/* ---- timer ---- */
+function toggleTimer(id, side){
+  const k=id+"_"+side;
+  timers[k]=timers[k]||{acc:0,running:false};
+  const T=timers[k], btn=document.getElementById(`tb_${id}_${side}`);
+  if(!T.running){
+    T.running=true; T.t0=Date.now(); btn.textContent="Parar"; btn.classList.add("run");
+    T.int=setInterval(()=>{
+      const s=((Date.now()-T.t0)/1000 + T.acc);
+      document.getElementById(`tm_${id}_${side}`).textContent=s.toFixed(1)+"s";
+    },100);
+  } else {
+    T.running=false; clearInterval(T.int);
+    T.acc += (Date.now()-T.t0)/1000; btn.textContent="Reiniciar"; btn.classList.remove("run");
+    const val=Math.round(T.acc*10)/10;
+    document.getElementById(`tm_${id}_${side}`).textContent=val.toFixed(1)+"s";
+    assessDraft[id]=assessDraft[id]||{}; assessDraft[id][side]=val;
+    T.acc=0; // next tap restarts fresh
+    updateLSI(id); updateLvlPreview();
+  }
+}
+
+/* ---- live LSI display ---- */
+function updateLSI(id){
+  const t=ASSESS.find(x=>x.id===id), r=assessDraft[id], box=document.getElementById("lsi_"+id);
+  if(!box) return;
+  let d,e;
+  if(t.type==="hop3"){ d=avg3(r&&r.dArr); e=avg3(r&&r.eArr); }
+  else { d=Number(r&&r.d)||0; e=Number(r&&r.e)||0; }
+  const L=lsi(d,e);
+  if(!L){ box.innerHTML=""; return; }
+  const ok = L.sym>=90;
+  box.innerHTML=`<div class="lsibar ${ok?"ok":"warn"}">
+    Simetria: <b>${L.sym}%</b> · assimetria ${L.asym}% ${L.asym>0?`· lado deficitário: <b>${L.weak}</b>`:""} ${ok?"✅":"⚠️"}
+  </div>`;
+}
+
+function updateLvlPreview(){ const p=scoreAssess(assessDraft); const el=document.getElementById("lvlPreview"); if(el) el.innerHTML=`<b style="color:var(--sky)">Nível: ${levelName(levelFromPts(p))}</b> (${p} de ${ASSESS.length} pontos)`; }
 
 /* ================= ONBOARDING ================= */
 function finishOnboard(){
@@ -435,14 +619,25 @@ function renderReport(){
   if(!S.pain.length) rp.innerHTML=`<p style="color:var(--mut);margin-top:4px">Nenhum registro de dor ainda.</p>`;
   else { const cnt={g:0,y:0,r:0}; S.pain.forEach(p=>cnt[p.c]++); const col={g:"var(--green)",y:"var(--amber)",r:"var(--red)"},nm={g:"Verde",y:"Amarelo",r:"Vermelho"}; rp.innerHTML=`<p style="color:var(--mut);margin-top:4px">🟢 ${cnt.g} · 🟡 ${cnt.y} · 🔴 ${cnt.r}</p><div style="margin-top:8px">${S.pain.slice(-10).reverse().map(p=>`<div class="log"><span class="dot" style="background:${col[p.c]}"></span>${br(p.d)} — ${nm[p.c]}</div>`).join("")}</div>`; }
   const ra=document.getElementById("repAssess");
-  const fmt=(t,r)=>{ if(!r) return "—"; if(!r.yes) return "Não"; if(t.kind==="quality") return "Sim"; return (r.val!==""&&r.val!=null)?r.val+(t.kind==="time"?"s":t.kind==="dist"?"%":""):"Sim"; };
+  // returns {d,e,sym} display strings for one assessment record
+  const de=(t,r)=>{
+    if(!r) return null;
+    let d,e;
+    if(t.type==="hop3"){ d=avg3(r.dArr); e=avg3(r.eArr); }
+    else if(t.type==="stepq"){ d=Number(r.d)||0; e=Number(r.e)||0; }
+    else { d=Number(r.d)||0; e=Number(r.e)||0; }
+    const L=(d&&e)?lsi(d,e):null;
+    return { d:d||"—", e:e||"—", sym:L?L.sym:null, weak:L?L.weak:null, u:t.type==="timer"?"s":(t.type==="hop3"?"cm":"") };
+  };
   const rows=ASSESS.map(t=>{
-    const a0=S.assess0?S.assess0[t.id]:null, a8=S.assess8?S.assess8[t.id]:null; let delta="";
-    if(a0&&a8&&t.kind!=="quality"&&a0.yes&&a8.yes&&a0.val&&a8.val){ const d=Number(a8.val)-Number(a0.val); delta=d>0?`<span class="up">▲ +${d}</span>`:d<0?`<span class="same">▼ ${d}</span>`:`<span class="same">=</span>`; }
-    else if(a0&&a8&&t.kind==="quality"){ delta=(!a0.yes&&a8.yes)?`<span class="up">▲</span>`:""; }
-    return `<tr><td>${t.q}</td><td class="n">${fmt(t,a0)}</td><td class="n">${fmt(t,a8)}</td><td class="n">${delta}</td></tr>`;
+    const r0=de(t,S.assess0?S.assess0[t.id]:null);
+    const r8=de(t,S.assess8?S.assess8[t.id]:null);
+    const cell=r=> r? `<div>D ${r.d}${r.u} · E ${r.e}${r.u}</div>${r.sym!=null?`<div style="font-size:11px;color:${r.sym>=90?"var(--green)":"var(--amber)"}">LSI ${r.sym}%${r.sym<90&&r.weak!=="—"?" ↓"+r.weak[0]:""}</div>`:""}` : "—";
+    let delta="";
+    if(r0&&r8&&r0.sym!=null&&r8.sym!=null){ const d=r8.sym-r0.sym; delta=d>0?`<span class="up">▲ +${d}%</span>`:d<0?`<span class="same">▼ ${d}%</span>`:`<span class="same">=</span>`; }
+    return `<tr><td>${t.q}</td><td class="n" style="text-align:left">${cell(r0)}</td><td class="n" style="text-align:left">${cell(r8)}</td><td class="n">${delta}</td></tr>`;
   }).join("");
-  ra.innerHTML=`<table class="cmp"><tr><th>Teste</th><th>Início</th><th>Agora</th><th></th></tr>${rows}</table>`;
+  ra.innerHTML=`<table class="cmp"><tr><th>Teste</th><th>Início</th><th>Agora</th><th>LSI</th></tr>${rows}</table>`;
   const btn=document.getElementById("reassessBtn");
   if(week()>=8){ btn.style.display="block"; btn.textContent=S.assess8?"Refazer reavaliação":"Fazer reavaliação (semana 8) ✔"; } else btn.style.display="none";
 }
