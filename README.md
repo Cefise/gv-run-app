@@ -1,38 +1,54 @@
-# GV Run · App do Programa 8 Semanas (MVP)
+# GV Run · App do Programa 8 Semanas (v2)
 
-App PWA do Programa GV Run. Stack: HTML/CSS/JS puro + localStorage. Sem build, sem dependências.
+PWA do Programa GV Run. Stack: HTML/CSS/JS puro + localStorage. Sem build.
+Sobe na Vercel igual TeamNoi: GitHub → import → Deploy.
 
-## Como colocar no ar (5 min, mesmo fluxo do TeamNoi)
-1. Crie um repositório no GitHub e suba estes 5 arquivos:
-   - index.html · manifest.json · sw.js · icon-192.png · icon-512.png
-2. Na Vercel: Add New Project → importe o repositório → Deploy (sem configuração).
-3. Pronto. O aluno abre o link, e no iPhone/Android pode "Adicionar à Tela de Início" — vira app.
+## NOVIDADES DA v2
+- 🔒 Tela de senha de acesso (libera só quem comprou)
+- 📝 Avaliação com Sim/Não + valor (repetições, tempo, % de simetria)
+- ▶ Botão de vídeo por exercício
+- 📈 Aba Evolução: frequência por semana, histórico de dor e comparação início vs. semana 8
 
-## Como adicionar seus vídeos
-No `index.html`, no topo do `<script>`, está o objeto `VIDEOS`.
-Cole o link do YouTube (não listado) de cada exercício:
+## ===== 3 COISAS PARA CONFIGURAR (no topo do index.html) =====
+
+### 1) SENHA DE ACESSO
 ```js
-const VIDEOS = {
-  pant: "https://youtu.be/SEU_VIDEO",
-  heel: "https://youtu.be/SEU_VIDEO",
-  ...
-};
+const ACCESS_PASSWORD = "GVRUN2025";
 ```
-O botão "▶ ver vídeo" aparece automaticamente em cada exercício que tiver link.
+Troque por uma senha sua. Cadastre essa mesma senha na Kiwify/Hotmart, em
+"conteúdo do produto" / e-mail de confirmação, para o aluno receber ao comprar.
+Deixe "" (vazio) para desativar a senha durante seus testes.
 
-## O que o MVP faz
-- Onboarding com avaliação da Semana 0 (4 testes) → define nível automaticamente
-- Tela Hoje: semana/fase atual, barra de progresso, status da semana (A/B/mobilidade)
-- Sessões A, B e Mobilidade com checklist por exercício, dose e ajuste por nível
-- Semáforo da dor com registro diário + protocolo pós-dor automático no amarelo/vermelho
-- Alerta na tela inicial quando o aluno registra dor amarela/vermelha no dia
-- Perfil com progresso (16 sessões de força) e lembrete de reavaliação na semana 8
+Como funciona: o aluno digita 1 vez; o app grava que está liberado naquele
+aparelho e não pede mais. (Senha única para a turma — para acesso individual
+por e-mail, é a versão Supabase.)
 
-## Limitações do MVP (por design)
-- Dados ficam no aparelho do aluno (localStorage). Trocou de celular = recomeça.
-- Sem login e sem painel para vocês verem o progresso dos alunos.
+### 2) VÍDEOS
+```js
+const VIDEOS = { pant:"https://youtu.be/XXXX", heel:"...", ... };
+```
+Grave cada exercício, suba no YouTube como **Não listado**, cole o link no id
+correspondente. O botão "▶ ver vídeo" aparece sozinho onde houver link.
+Lista de ids: pant, heel, agach_uni, rdl, pallof, bulgaro, declinio, rdl_uni,
+hop, spanish, stepdown, equi, tibial, pecurto, prancha, faixa, pogo, curl,
+mob1..mob6.
 
-## Próxima versão (quando a turma 1 validar)
-Trocar localStorage por Supabase (auth por e-mail + tabelas sessions/pain_log)
-→ login multi-dispositivo + painel admin para vocês acompanharem a turma.
-A estrutura do código já está pronta para essa troca: tudo passa pelas funções load()/save().
+### 3) TESTES DA AVALIAÇÃO (opcional)
+Já vêm prontos os 4 testes. Para ajustar meta/unidade, edite o array `ASSESS`.
+kind: "reps" (repetições) | "time" (segundos) | "dist" (%) | "quality" (só sim/não).
+
+## COMO O ALUNO USA
+1. Abre o link → digita a senha (1x) → onboarding com nome + avaliação
+2. Aba Hoje: sessão A, B ou mobilidade, com checklist e vídeos
+3. Aba Dor: registra o semáforo; amarelo/vermelho abre protocolo na hora
+4. Aba Evolução: acompanha frequência, dor e comparação da avaliação
+5. Na semana 8, o app libera "Refazer avaliação" para fechar o antes/depois
+
+## LIMITAÇÃO (por design nesta versão)
+Dados no aparelho do aluno (localStorage). Trocou de celular = recomeça.
+Sem painel para vocês verem o progresso da turma.
+
+## PRÓXIMA VERSÃO (quando a turma 1 validar): SUPABASE
+- Login por e-mail; e-mail do comprador liberado via webhook da Kiwify
+- Dados na nuvem (multi-dispositivo) + painel admin para vocês acompanharem
+- Migração facilitada: todo dado já passa pelas funções load()/save()

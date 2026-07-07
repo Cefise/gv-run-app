@@ -29,12 +29,11 @@ header h1{font-size:20px;font-weight:800;letter-spacing:-.3px;margin-top:2px}
 .btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--sky);box-shadow:none}
 .btn:disabled{opacity:.45;box-shadow:none}
 .btn+.btn{margin-top:10px}
-input[type=text]{width:100%;background:var(--navy);border:1.5px solid var(--line);border-radius:12px;padding:14px;color:var(--txt);font-size:16px}
+input[type=text],input[type=number],input[type=password]{width:100%;background:var(--navy);border:1.5px solid var(--line);border-radius:12px;padding:14px;color:var(--txt);font-size:16px}
 label{font-size:13px;color:var(--mut);display:block;margin:14px 0 6px}
 .chip{display:inline-block;background:rgba(87,160,255,.14);color:var(--sky);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;margin-top:6px}
 .progress{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:10px}
 .progress i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--sky));border-radius:99px}
-/* checklist */
 .ex{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06)}
 .ex:last-child{border-bottom:none}
 .ex .box{flex:0 0 26px;height:26px;border:2px solid var(--sky);border-radius:8px;margin-top:2px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;cursor:pointer;user-select:none}
@@ -42,12 +41,7 @@ label{font-size:13px;color:var(--mut);display:block;margin:14px 0 6px}
 .ex .nm{font-size:15px;font-weight:700}
 .ex.done .nm{text-decoration:line-through;color:var(--mut)}
 .ex .ds{font-size:12.5px;color:var(--sky);font-weight:700;margin-top:2px}
-.ex a.vid{font-size:12px;color:var(--mut);text-decoration:underline}
-/* toggle A/B */
-.seg{display:flex;background:var(--navy);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:14px}
-.seg button{flex:1;padding:12px;background:none;border:none;color:var(--mut);font-weight:800;font-size:14px;cursor:pointer}
-.seg button.on{background:linear-gradient(90deg,var(--blue),var(--sky));color:#fff}
-/* semaphore */
+.ex a.vid{font-size:12px;color:var(--mut);text-decoration:underline;display:inline-block;margin-top:4px}
 .sem{border:none;border-radius:14px;padding:16px;width:100%;color:#fff;font-weight:800;font-size:16px;text-align:left;margin-bottom:10px;cursor:pointer}
 .sem small{display:block;font-weight:400;font-size:12.5px;opacity:.9;margin-top:3px}
 .sem.g{background:linear-gradient(90deg,#1F7A4D,var(--green))}
@@ -55,55 +49,78 @@ label{font-size:13px;color:var(--mut);display:block;margin:14px 0 6px}
 .sem.r{background:linear-gradient(90deg,#A93232,var(--red))}
 .log{font-size:13px;color:var(--mut);padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px}
-/* tabbar */
 nav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,23,48,.96);border-top:1px solid var(--line);display:flex;backdrop-filter:blur(10px);padding-bottom:env(safe-area-inset-bottom)}
 nav button{flex:1;background:none;border:none;color:var(--mut);font-size:11px;font-weight:700;padding:10px 0 8px;cursor:pointer}
 nav button .ic{display:block;font-size:20px;margin-bottom:2px}
 nav button.on{color:var(--sky)}
 h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--sky);margin:6px 0 10px}
-.test{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
-.test .q{font-size:14px;line-height:1.4}
-.test .q b{display:block}
-.test .q span{color:var(--mut);font-size:12.5px}
-.sw{flex:0 0 52px;height:30px;border-radius:99px;background:rgba(255,255,255,.12);position:relative;cursor:pointer;transition:.2s}
-.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s}
-.sw.on{background:var(--green)}
-.sw.on::after{left:25px}
 .banner{border-radius:14px;padding:14px 16px;font-size:13.5px;line-height:1.55;margin-bottom:14px}
 .banner.blue{background:rgba(46,111,219,.16);border:1px solid var(--line);color:var(--ice)}
 .banner.warn{background:rgba(227,160,8,.12);border:1px solid rgba(227,160,8,.4);color:#F3DFAE}
+.atest{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.atest:last-child{border-bottom:none}
+.atest .q b{display:block;font-size:14.5px}
+.atest .q span{color:var(--mut);font-size:12.5px}
+.yn{display:flex;gap:8px;margin-top:10px}
+.yn button{flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--line);background:var(--navy);color:var(--mut);font-weight:800;font-size:14px;cursor:pointer}
+.yn button.yes.on{background:linear-gradient(90deg,#1F7A4D,var(--green));border-color:transparent;color:#fff}
+.yn button.no.on{background:rgba(214,69,69,.25);border-color:rgba(214,69,69,.5);color:#fff}
+.valwrap{margin-top:10px;display:flex;align-items:center;gap:10px}
+.valwrap span{font-size:13px;color:var(--mut);white-space:nowrap}
+.bars{display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:12px;padding-top:8px}
+.bars .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bars .bar{width:70%;background:linear-gradient(180deg,var(--sky),var(--blue));border-radius:6px 6px 0 0;min-height:3px}
+.bars .lb{font-size:10px;color:var(--mut);margin-top:6px}
+.bars .vl{font-size:11px;color:var(--sky);font-weight:800;margin-bottom:4px}
+table.cmp{width:100%;border-collapse:collapse;margin-top:10px}
+table.cmp th,table.cmp td{text-align:left;font-size:13px;padding:9px 6px;border-bottom:1px solid rgba(255,255,255,.07)}
+table.cmp th{color:var(--sky);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+table.cmp td.n{color:var(--sky);font-weight:800;text-align:center;white-space:nowrap}
+.up{color:var(--green);font-weight:800}
+.same{color:var(--mut)}
 </style>
 </head>
 <body>
 
 <header>
   <div class="eyebrow">Método GV Run</div>
-  <h1 id="hTitle">Programa 8 Semanas</h1>
+  <h1>Programa 8 Semanas</h1>
 </header>
+
+<!-- GATE -->
+<div id="vGate" class="wrap hidden">
+  <div class="card" style="margin-top:40px">
+    <span class="tag">Acesso ao programa</span>
+    <h3>Digite sua senha de acesso</h3>
+    <p>Você recebeu a senha por e-mail junto com a confirmação da sua compra. Digite abaixo para liberar o app.</p>
+    <label>Senha de acesso</label>
+    <input type="password" id="inGate" placeholder="••••••••" autocomplete="off">
+    <p id="gateErr" style="color:#F0A0A0;display:none;margin-top:8px">Senha incorreta. Confira o e-mail da compra.</p>
+    <button class="btn" style="margin-top:16px" onclick="checkGate()">Liberar acesso 🔓</button>
+  </div>
+  <div class="banner blue">Ainda não tem acesso? Garanta sua vaga com <b>@vyni.fisio</b> ou <b>@guicarlii</b>.</div>
+</div>
 
 <!-- ONBOARDING -->
 <div id="vOnboard" class="wrap hidden">
-  <div class="card">
-    <span class="tag">Bem-vindo(a)</span>
-    <h3>Vamos configurar seu programa</h3>
-    <p>Leva 2 minutos. Primeiro seu nome, depois os 4 testes da Semana 0 para definir seu nível.</p>
+  <div class="card" id="nameCard">
+    <span class="tag" id="onbTag">Bem-vindo(a)</span>
+    <h3 id="onbTitle">Vamos configurar seu programa</h3>
+    <p>Leva 3 minutos. Primeiro seu nome, depois os 4 testes da Semana 0 para definir seu nível e medir sua evolução.</p>
     <label>Seu nome</label>
     <input type="text" id="inName" placeholder="Como você quer ser chamado">
   </div>
   <div class="card">
-    <span class="tag">Avaliação inicial · Semana 0</span>
-    <h3>Marque os testes em que você pontuou</h3>
-    <p style="margin-bottom:6px">Faça cada teste com calma (filme se puder) e ative os que você atingiu:</p>
-    <div class="test"><div class="q"><b>Equilíbrio unipodal, olhos fechados</b><span>Ficou ≥ 30 s estável?</span></div><div class="sw" data-t="0"></div></div>
-    <div class="test"><div class="q"><b>Panturrilha unipodal</b><span>Fez ≥ 20 repetições completas?</span></div><div class="sw" data-t="1"></div></div>
-    <div class="test"><div class="q"><b>Step-down de qualidade</b><span>8 descidas sem o joelho cair pra dentro?</span></div><div class="sw" data-t="2"></div></div>
-    <div class="test"><div class="q"><b>Salto unipodal</b><span>Simetria ≥ 90% entre as pernas?</span></div><div class="sw" data-t="3"></div></div>
-    <p id="lvlPreview" style="margin-top:12px"><b style="color:var(--sky)">Nível: Iniciante</b></p>
+    <span class="tag">Avaliação · registre o resultado</span>
+    <h3>Faça cada teste e anote</h3>
+    <p style="margin-bottom:4px">Marque se conseguiu (Sim/Não) e digite o valor — é assim que você compara sua evolução na semana 8.</p>
+    <div id="assessList"></div>
+    <p id="lvlPreview" style="margin-top:12px"><b style="color:var(--sky)">Nível: Iniciante</b> (0 pontos)</p>
   </div>
-  <button class="btn" onclick="finishOnboard()">Começar o programa 🏃</button>
+  <button class="btn" id="onbBtn" onclick="finishOnboard()">Começar o programa 🏃</button>
 </div>
 
-<!-- HOJE -->
+<!-- HOME -->
 <div id="vHome" class="wrap hidden">
   <div class="card">
     <span class="tag" id="homePhaseTag"></span>
@@ -125,7 +142,7 @@ h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercas
   </div>
 </div>
 
-<!-- SESSAO -->
+<!-- SESSION -->
 <div id="vSession" class="wrap hidden">
   <button class="btn ghost" style="margin-bottom:14px" onclick="show('vHome')">← Voltar</button>
   <div class="card">
@@ -138,7 +155,7 @@ h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercas
   <button class="btn" id="sesDoneBtn" onclick="completeSession()">Concluir sessão ✔</button>
 </div>
 
-<!-- DOR -->
+<!-- PAIN -->
 <div id="vPain" class="wrap hidden">
   <h2 class="sec">Como está a dor hoje?</h2>
   <button class="sem g" onclick="logPain('g')">🟢 Verde<small>Sem dor, ou até 3/10 que passou em 24 h. Treine e progrida.</small></button>
@@ -149,19 +166,39 @@ h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercas
   <div class="card" id="painHistory"><p>Nenhum registro ainda.</p></div>
 </div>
 
-<!-- PERFIL -->
+<!-- REPORT -->
+<div id="vReport" class="wrap hidden">
+  <div class="card">
+    <span class="tag">Relatório de evolução</span>
+    <h3 id="repName"></h3>
+    <p id="repSummary"></p>
+    <div class="progress"><i id="repBar" style="width:0%"></i></div>
+  </div>
+  <div class="card">
+    <span class="tag">Frequência semanal</span>
+    <h3>Sessões concluídas por semana</h3>
+    <div class="bars" id="repBars"></div>
+  </div>
+  <div class="card">
+    <span class="tag">Semáforo da dor</span>
+    <h3>Registros recentes</h3>
+    <div id="repPain"></div>
+  </div>
+  <div class="card">
+    <span class="tag">Avaliação · início vs. agora</span>
+    <h3>Compare sua evolução</h3>
+    <div id="repAssess"></div>
+    <button class="btn ghost" id="reassessBtn" style="margin-top:14px;display:none" onclick="startReassess()">Fazer reavaliação (semana 8)</button>
+  </div>
+</div>
+
+<!-- PROFILE -->
 <div id="vProfile" class="wrap hidden">
   <div class="card">
     <span class="tag">Seu programa</span>
     <h3 id="profName"></h3>
     <p id="profInfo"></p>
     <span class="chip" id="profLevel"></span>
-  </div>
-  <div class="card">
-    <span class="tag">Progresso</span>
-    <h3 id="profSessions"></h3>
-    <div class="progress"><i id="profBar" style="width:0%"></i></div>
-    <p id="profReassess"></p>
   </div>
   <div class="card">
     <span class="tag">Suporte</span>
@@ -175,18 +212,38 @@ h2.sec{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercas
 <nav>
   <button id="nHome" class="on" onclick="show('vHome')"><span class="ic">🏠</span>Hoje</button>
   <button id="nPain" onclick="show('vPain')"><span class="ic">🚦</span>Dor</button>
+  <button id="nReport" onclick="show('vReport')"><span class="ic">📈</span>Evolução</button>
   <button id="nProfile" onclick="show('vProfile')"><span class="ic">👤</span>Perfil</button>
 </nav>
 
 <script>
-/* ================= DADOS DO PROGRAMA =================
-   Cole os links dos seus vídeos em VIDEOS (id do exercício -> URL) */
+/* =====================================================================
+   1) SENHA DE ACESSO
+   Troque pela senha que você cadastra na Kiwify/Hotmart e entrega ao
+   aluno na confirmação da compra. Deixe "" para desativar nos testes.
+   ===================================================================== */
+const ACCESS_PASSWORD = "GVRUN2025";
+
+/* =====================================================================
+   2) VÍDEOS  — suba no YouTube como "Não listado" e cole os links aqui.
+   O botão "▶ ver vídeo" aparece sozinho onde houver link.
+   ===================================================================== */
 const VIDEOS = {
-  pant:"", heel:"", agach_uni:"", rdl:"", pallof:"",
-  spanish:"", stepdown:"", equi:"", tibial:"", pecurto:"", prancha:"",
-  bulgaro:"", faixa:"", pogo:"", declinio:"", rdl_uni:"", curl:"", hop:"",
+  pant:"", heel:"", agach_uni:"", rdl:"", pallof:"", bulgaro:"", declinio:"",
+  rdl_uni:"", hop:"", spanish:"", stepdown:"", equi:"", tibial:"", pecurto:"",
+  prancha:"", faixa:"", pogo:"", curl:"",
   mob1:"", mob2:"", mob3:"", mob4:"", mob5:"", mob6:""
 };
+
+/* =====================================================================
+   3) TESTES  — kind: reps | time | dist | quality
+   ===================================================================== */
+const ASSESS = [
+  {id:"balance", q:"Equilíbrio unipodal, olhos fechados", hint:"Fique numa perna, olhos fechados, e cronometre.", kind:"time", unit:"segundos", goal:30},
+  {id:"calf", q:"Panturrilha unipodal", hint:"Máximo de elevações numa perna, amplitude total.", kind:"reps", unit:"repetições", goal:20},
+  {id:"stepdown", q:"Step-down de qualidade", hint:"8 descidas lentas: o joelho cai para dentro?", kind:"quality", unit:"", goal:null},
+  {id:"hop", q:"Salto unipodal (distância)", hint:"3 saltos por perna; simetria entre lados.", kind:"dist", unit:"% de simetria", goal:90}
+];
 
 const MOBILITY = [
   {id:"mob1", n:"Balanços de perna (frontal e lateral)", d:"10 / direção / lado"},
@@ -200,245 +257,213 @@ const MOBILITY = [
 const PHASES = {
  1:{name:"Adaptação", weeks:"1–2",
    focus:"Aprender a técnica e preparar músculos e tendões. Esforço leve (RPE 5–6). Dor muscular tardia leve é normal.",
-   note:{ini:"Panturrilha e RDL com as duas pernas; prancha com joelhos apoiados.",
-         av:"Adicione carga leve na panturrilha e no RDL desde já."},
-   A:[{id:"pant",n:"Panturrilha pesada (joelho estendido + fletido)",d:"3 × 10 · descida 3 s"},
-      {id:"heel",n:"Heel drop excêntrico",d:"2 × 10 / perna"},
-      {id:"agach_uni",n:"Agachamento unipodal (apoie os dedos se precisar)",d:"3 × 6 / lado"},
-      {id:"rdl",n:"RDL leve",d:"3 × 8"},
-      {id:"pallof",n:"Pallof press",d:"3 × 8 / lado"}],
-   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"3 × 30 s"},
-      {id:"stepdown",n:"Step-down em degrau baixo",d:"3 × 8 / lado"},
-      {id:"equi",n:"Equilíbrio unipodal (olhos abertos)",d:"3 × 30 s"},
-      {id:"tibial",n:"Tibial anterior",d:"3 × 15"},
-      {id:"pecurto",n:"Pé curto / intrínsecos",d:"3 × 8 (5 s)"},
-      {id:"prancha",n:"Prancha lateral",d:"3 × 20 s / lado"}]},
+   note:{ini:"Panturrilha e RDL com as duas pernas; prancha com joelhos apoiados.", av:"Adicione carga leve na panturrilha e no RDL desde já."},
+   A:[{id:"pant",n:"Panturrilha pesada (joelho estendido + fletido)",d:"3 × 10 · descida 3 s"},{id:"heel",n:"Heel drop excêntrico",d:"2 × 10 / perna"},{id:"agach_uni",n:"Agachamento unipodal (apoie os dedos se precisar)",d:"3 × 6 / lado"},{id:"rdl",n:"RDL leve",d:"3 × 8"},{id:"pallof",n:"Pallof press",d:"3 × 8 / lado"}],
+   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"3 × 30 s"},{id:"stepdown",n:"Step-down em degrau baixo",d:"3 × 8 / lado"},{id:"equi",n:"Equilíbrio unipodal (olhos abertos)",d:"3 × 30 s"},{id:"tibial",n:"Tibial anterior",d:"3 × 15"},{id:"pecurto",n:"Pé curto / intrínsecos",d:"3 × 8 (5 s)"},{id:"prancha",n:"Prancha lateral",d:"3 × 20 s / lado"}]},
  2:{name:"Construção", weeks:"3–4",
    focus:"Subir a carga com técnica dominada (RPE 6–7). Na semana 4, reduza o volume de corrida em ~20%.",
-   note:{ini:"Búlgaro sem carga e step-down baixo por mais 1 semana.",
-         av:"Panturrilha unipodal com carga; RDL unipodal no lugar do bilateral."},
-   A:[{id:"pant",n:"Panturrilha pesada com carga",d:"3 × 8–10 · descida 3 s"},
-      {id:"heel",n:"Heel drop excêntrico",d:"3 × 12 / perna"},
-      {id:"bulgaro",n:"Agachamento búlgaro",d:"3 × 8 / lado"},
-      {id:"rdl",n:"RDL com carga",d:"3 × 8"},
-      {id:"pallof",n:"Pallof press",d:"3 × 10 / lado"}],
-   B:[{id:"spanish",n:"Spanish Squat",d:"4 × 40 s"},
-      {id:"stepdown",n:"Step-down (degrau mais alto)",d:"3 × 10 / lado"},
-      {id:"equi",n:"Equilíbrio unipodal (olhos fechados)",d:"3 × 30 s"},
-      {id:"faixa",n:"Caminhada lateral com faixa",d:"3 × 12 passos"},
-      {id:"tibial",n:"Tibial anterior",d:"3 × 18"},
-      {id:"prancha",n:"Prancha lateral",d:"3 × 30 s / lado"}]},
+   note:{ini:"Búlgaro sem carga e step-down baixo por mais 1 semana.", av:"Panturrilha unipodal com carga; RDL unipodal no lugar do bilateral."},
+   A:[{id:"pant",n:"Panturrilha pesada com carga",d:"3 × 8–10 · descida 3 s"},{id:"heel",n:"Heel drop excêntrico",d:"3 × 12 / perna"},{id:"bulgaro",n:"Agachamento búlgaro",d:"3 × 8 / lado"},{id:"rdl",n:"RDL com carga",d:"3 × 8"},{id:"pallof",n:"Pallof press",d:"3 × 10 / lado"}],
+   B:[{id:"spanish",n:"Spanish Squat",d:"4 × 40 s"},{id:"stepdown",n:"Step-down (degrau mais alto)",d:"3 × 10 / lado"},{id:"equi",n:"Equilíbrio unipodal (olhos fechados)",d:"3 × 30 s"},{id:"faixa",n:"Caminhada lateral com faixa",d:"3 × 12 passos"},{id:"tibial",n:"Tibial anterior",d:"3 × 18"},{id:"prancha",n:"Prancha lateral",d:"3 × 30 s / lado"}]},
  3:{name:"Intensificação", weeks:"5–6",
    focus:"Excêntricos pesados + primeira pliometria leve (RPE 7–8). Faça ≥ 48 h antes dos treinos-chave.",
-   note:{ini:"Adie os pogo hops 1 semana; mantenha equilíbrio olhos fechados no lugar.",
-         av:"Aumente a carga nos excêntricos mantendo a descida de 3–4 s."},
-   A:[{id:"pant",n:"Panturrilha pesada",d:"4 × 8 · carga desafiadora"},
-      {id:"heel",n:"Heel drop com carga (mochila)",d:"3 × 15 / perna"},
-      {id:"declinio",n:"Agachamento em declínio unipodal",d:"3 × 8 · descida 3–4 s"},
-      {id:"rdl_uni",n:"RDL unipodal excêntrico",d:"3 × 6 / lado · descida 4 s"},
-      {id:"pallof",n:"Pallof press",d:"3 × 10 / lado"}],
-   B:[{id:"pogo",n:"Pogo hops (pliometria)",d:"2 × 15"},
-      {id:"stepdown",n:"Step-down",d:"3 × 10 / lado"},
-      {id:"bulgaro",n:"Búlgaro excêntrico",d:"3 × 8 / lado · descida 3–4 s"},
-      {id:"curl",n:"Curl deslizante (isquiotibiais)",d:"3 × 8"},
-      {id:"equi",n:"Equilíbrio em superfície instável",d:"3 × 30 s"},
-      {id:"prancha",n:"Prancha lateral dinâmica",d:"3 × 10 / lado"}]},
+   note:{ini:"Adie os pogo hops 1 semana; mantenha equilíbrio olhos fechados no lugar.", av:"Aumente a carga nos excêntricos mantendo a descida de 3–4 s."},
+   A:[{id:"pant",n:"Panturrilha pesada",d:"4 × 8 · carga desafiadora"},{id:"heel",n:"Heel drop com carga (mochila)",d:"3 × 15 / perna"},{id:"declinio",n:"Agachamento em declínio unipodal",d:"3 × 8 · descida 3–4 s"},{id:"rdl_uni",n:"RDL unipodal excêntrico",d:"3 × 6 / lado · descida 4 s"},{id:"pallof",n:"Pallof press",d:"3 × 10 / lado"}],
+   B:[{id:"pogo",n:"Pogo hops (pliometria)",d:"2 × 15"},{id:"stepdown",n:"Step-down",d:"3 × 10 / lado"},{id:"bulgaro",n:"Búlgaro excêntrico",d:"3 × 8 / lado · descida 3–4 s"},{id:"curl",n:"Curl deslizante (isquiotibiais)",d:"3 × 8"},{id:"equi",n:"Equilíbrio em superfície instável",d:"3 × 30 s"},{id:"prancha",n:"Prancha lateral dinâmica",d:"3 × 10 / lado"}]},
  4:{name:"Consolidação e potência", weeks:"7–8",
    focus:"Transformar força em resistência à fadiga da corrida. Se tem prova, esta fase é sua preparação final.",
-   note:{ini:"Hop-and-stick: comece só para frente, sem giro.",
-         av:"Pogo com avanço; hop-and-stick lateral e com giro."},
-   A:[{id:"pant",n:"Panturrilha pesada",d:"3 × 8 · manter carga"},
-      {id:"declinio",n:"Agachamento em declínio unipodal",d:"3 × 8"},
-      {id:"rdl",n:"RDL (bilateral ou unipodal)",d:"3 × 8"},
-      {id:"pogo",n:"Pogo hops",d:"3 × 20"},
-      {id:"hop",n:"Hop-and-stick (salte e trave 2–3 s)",d:"3 × 5 / direção"}],
-   B:[{id:"spanish",n:"Spanish Squat",d:"3 × 45 s"},
-      {id:"stepdown",n:"Step-down",d:"3 × 10 / lado"},
-      {id:"faixa",n:"Caminhada lateral com faixa",d:"3 × 15 passos"},
-      {id:"pecurto",n:"Pé curto + tibial anterior",d:"3 × 10 + 3 × 20"},
-      {id:"prancha",n:"Prancha lateral",d:"3 × 40 s / lado"}]}
+   note:{ini:"Hop-and-stick: comece só para frente, sem giro.", av:"Pogo com avanço; hop-and-stick lateral e com giro."},
+   A:[{id:"pant",n:"Panturrilha pesada",d:"3 × 8 · manter carga"},{id:"declinio",n:"Agachamento em declínio unipodal",d:"3 × 8"},{id:"rdl",n:"RDL (bilateral ou unipodal)",d:"3 × 8"},{id:"pogo",n:"Pogo hops",d:"3 × 20"},{id:"hop",n:"Hop-and-stick (salte e trave 2–3 s)",d:"3 × 5 / direção"}],
+   B:[{id:"spanish",n:"Spanish Squat",d:"3 × 45 s"},{id:"stepdown",n:"Step-down",d:"3 × 10 / lado"},{id:"faixa",n:"Caminhada lateral com faixa",d:"3 × 15 passos"},{id:"pecurto",n:"Pé curto + tibial anterior",d:"3 × 10 + 3 × 20"},{id:"prancha",n:"Prancha lateral",d:"3 × 40 s / lado"}]}
 };
 
 /* ================= ESTADO ================= */
-const KEY = "gvrun_v1";
+const KEY = "gvrun_v2";
 let S = load();
 let curSession = null, curChecks = {};
+let assessDraft = {}, reassessMode = false;
 
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || null }catch(e){ return null } }
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)) }
 function today(){ return new Date().toISOString().slice(0,10) }
-
-function week(){
-  if(!S) return 1;
-  const days = Math.floor((new Date(today()) - new Date(S.start)) / 864e5);
-  return Math.min(8, Math.max(1, Math.floor(days/7)+1));
-}
+function br(d){ return d.split("-").reverse().join("/") }
+function week(){ if(!S) return 1; const days=Math.floor((new Date(today())-new Date(S.start))/864e5); return Math.min(8,Math.max(1,Math.floor(days/7)+1)); }
 function phase(){ return Math.ceil(week()/2) }
 function levelName(l){ return l==="ini"?"Iniciante":l==="av"?"Avançado":"Intermediário" }
+function scoreAssess(a){ let p=0; ASSESS.forEach(t=>{ const r=a[t.id]; if(!r||!r.yes) return; if(t.kind==="quality"){p++;} else if(r.val!==""&&r.val!=null&&Number(r.val)>=t.goal){p++;} else {p++;} }); return p; }
+function levelFromPts(p){ return p<=1?"ini":p<=3?"int":"av" }
+
+/* ================= GATE ================= */
+function checkGate(){
+  const v = document.getElementById("inGate").value.trim();
+  if(v === ACCESS_PASSWORD){ localStorage.setItem("gvrun_unlocked","1"); boot(); }
+  else { document.getElementById("gateErr").style.display="block"; }
+}
+function unlocked(){ return !ACCESS_PASSWORD || localStorage.getItem("gvrun_unlocked")==="1" }
+
+/* ================= ASSESSMENT UI ================= */
+function renderAssessInputs(){
+  document.getElementById("assessList").innerHTML = ASSESS.map(t=>{
+    const needVal = t.kind!=="quality";
+    return `<div class="atest" data-id="${t.id}">
+      <div class="q"><b>${t.q}</b><span>${t.hint}</span></div>
+      <div class="yn"><button class="yes" onclick="setYN('${t.id}',true)">Sim</button><button class="no" onclick="setYN('${t.id}',false)">Não</button></div>
+      ${needVal?`<div class="valwrap" id="vw_${t.id}" style="display:none"><input type="number" inputmode="numeric" id="val_${t.id}" placeholder="0" oninput="setVal('${t.id}',this.value)"><span>${t.unit}${t.goal?` · meta ≥ ${t.goal}`:""}</span></div>`:""}
+    </div>`;
+  }).join("");
+}
+function setYN(id,yes){
+  assessDraft[id]=assessDraft[id]||{}; assessDraft[id].yes=yes;
+  const row=document.querySelector(`.atest[data-id="${id}"]`);
+  row.querySelector(".yes").classList.toggle("on",yes);
+  row.querySelector(".no").classList.toggle("on",!yes);
+  const vw=document.getElementById("vw_"+id); if(vw) vw.style.display=yes?"flex":"none";
+  updateLvlPreview();
+}
+function setVal(id,v){ assessDraft[id]=assessDraft[id]||{}; assessDraft[id].val=v; updateLvlPreview(); }
+function updateLvlPreview(){ const p=scoreAssess(assessDraft); const el=document.getElementById("lvlPreview"); if(el) el.innerHTML=`<b style="color:var(--sky)">Nível: ${levelName(levelFromPts(p))}</b> (${p} ponto${p===1?"":"s"})`; }
 
 /* ================= ONBOARDING ================= */
-let testPts = [false,false,false,false];
-document.querySelectorAll(".sw").forEach(sw=>{
-  sw.onclick = ()=>{
-    const i = +sw.dataset.t;
-    testPts[i] = !testPts[i];
-    sw.classList.toggle("on", testPts[i]);
-    const p = testPts.filter(Boolean).length;
-    const lvl = p<=1?"Iniciante":p<=3?"Intermediário":"Avançado";
-    document.getElementById("lvlPreview").innerHTML = `<b style="color:var(--sky)">Nível: ${lvl}</b> (${p} ponto${p===1?"":"s"})`;
-  };
-});
 function finishOnboard(){
-  const name = document.getElementById("inName").value.trim() || "Corredor(a)";
-  const p = testPts.filter(Boolean).length;
-  const lvl = p<=1?"ini":p<=3?"int":"av";
-  S = { name, level:lvl, pts:p, start:today(), sessions:[], pain:[] };
-  save(); render(); show("vHome");
+  const name=document.getElementById("inName").value.trim()||"Corredor(a)";
+  const p=scoreAssess(assessDraft);
+  S={ name, level:levelFromPts(p), pts:p, start:today(), assess0:JSON.parse(JSON.stringify(assessDraft)), assess8:null, sessions:[], pain:[] };
+  save(); show("vHome");
+}
+
+/* ================= REASSESS ================= */
+function startReassess(){
+  reassessMode=true; assessDraft={};
+  document.getElementById("nameCard").style.display="none";
+  document.getElementById("onbBtn").textContent="Salvar reavaliação ✔";
+  document.getElementById("onbBtn").setAttribute("onclick","finishReassess()");
+  renderAssessInputs(); show("vOnboard");
+}
+function finishReassess(){
+  S.assess8=JSON.parse(JSON.stringify(assessDraft)); save(); reassessMode=false;
+  document.getElementById("nameCard").style.display="";
+  document.getElementById("onbBtn").textContent="Começar o programa 🏃";
+  document.getElementById("onbBtn").setAttribute("onclick","finishOnboard()");
+  show("vReport");
 }
 
 /* ================= NAV ================= */
 function show(id){
-  ["vOnboard","vHome","vSession","vPain","vProfile"].forEach(v=>document.getElementById(v).classList.add("hidden"));
+  ["vGate","vOnboard","vHome","vSession","vPain","vReport","vProfile"].forEach(v=>document.getElementById(v).classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
-  ["nHome","nPain","nProfile"].forEach(n=>document.getElementById(n).classList.remove("on"));
-  const map = {vHome:"nHome", vSession:"nHome", vPain:"nPain", vProfile:"nProfile"};
+  ["nHome","nPain","nReport","nProfile"].forEach(n=>document.getElementById(n).classList.remove("on"));
+  const map={vHome:"nHome",vSession:"nHome",vPain:"nPain",vReport:"nReport",vProfile:"nProfile"};
   if(map[id]) document.getElementById(map[id]).classList.add("on");
   if(id==="vHome") renderHome();
   if(id==="vPain") renderPain();
+  if(id==="vReport") renderReport();
   if(id==="vProfile") renderProfile();
 }
 
 /* ================= HOME ================= */
 function renderHome(){
-  const w = week(), ph = phase(), P = PHASES[ph];
-  document.getElementById("homePhaseTag").textContent = `Fase ${ph} · ${P.name} · Semanas ${P.weeks}`;
-  document.getElementById("homeGreet").textContent = `Olá, ${S.name}! Semana ${w} de 8`;
-  document.getElementById("homeMsg").textContent = P.focus;
-  document.getElementById("homeBar").style.width = Math.round(w/8*100)+"%";
-  document.getElementById("homeWeekChip").textContent = `Nível: ${levelName(S.level)}`;
-  const wk = weekSessions();
-  document.getElementById("weekDoneTitle").textContent =
-    `Concluídas: ${wk.A?"✅":"⬜"} Sessão A · ${wk.B?"✅":"⬜"} Sessão B · 🌀 ${wk.M}x mobilidade`;
-  // pain banner
-  const lastPain = S.pain[S.pain.length-1];
-  const pb = document.getElementById("painBanner");
-  if(lastPain && lastPain.d===today() && lastPain.c!=="g"){
-    pb.classList.remove("hidden");
-    pb.textContent = lastPain.c==="y"
-      ? "🟡 Você registrou dor amarela hoje: volte às doses da fase anterior e mantenha só o que não dói. Veja o protocolo na aba Dor."
-      : "🔴 Você registrou dor vermelha hoje: não treine força. Fale com a gente no grupo antes da próxima sessão.";
-  } else pb.classList.add("hidden");
+  const w=week(),ph=phase(),P=PHASES[ph];
+  document.getElementById("homePhaseTag").textContent=`Fase ${ph} · ${P.name} · Semanas ${P.weeks}`;
+  document.getElementById("homeGreet").textContent=`Olá, ${S.name}! Semana ${w} de 8`;
+  document.getElementById("homeMsg").textContent=P.focus;
+  document.getElementById("homeBar").style.width=Math.round(w/8*100)+"%";
+  document.getElementById("homeWeekChip").textContent=`Nível: ${levelName(S.level)}`;
+  const wk=weekSessions();
+  document.getElementById("weekDoneTitle").textContent=`Concluídas: ${wk.A?"✅":"⬜"} Sessão A · ${wk.B?"✅":"⬜"} Sessão B · 🌀 ${wk.M}x mobilidade`;
+  const lp=S.pain[S.pain.length-1], pb=document.getElementById("painBanner");
+  if(lp&&lp.d===today()&&lp.c!=="g"){ pb.classList.remove("hidden"); pb.textContent=lp.c==="y"?"🟡 Você registrou dor amarela hoje: volte às doses da fase anterior e mantenha só o que não dói. Veja o protocolo na aba Dor.":"🔴 Você registrou dor vermelha hoje: não treine força. Fale com a gente antes da próxima sessão."; }
+  else pb.classList.add("hidden");
 }
-function weekSessions(){
-  const w = week();
-  const start = new Date(S.start); start.setDate(start.getDate()+(w-1)*7);
-  const end = new Date(start); end.setDate(end.getDate()+7);
-  const inWeek = s => { const d=new Date(s.d); return d>=start && d<end };
-  return {
-    A: S.sessions.some(s=>s.t==="A"&&inWeek(s)),
-    B: S.sessions.some(s=>s.t==="B"&&inWeek(s)),
-    M: S.sessions.filter(s=>s.t==="M"&&inWeek(s)).length
-  };
+function weekSessions(w){
+  w=w||week();
+  const start=new Date(S.start); start.setDate(start.getDate()+(w-1)*7);
+  const end=new Date(start); end.setDate(end.getDate()+7);
+  const inW=s=>{const d=new Date(s.d);return d>=start&&d<end};
+  return { A:S.sessions.some(s=>s.t==="A"&&inW(s)), B:S.sessions.some(s=>s.t==="B"&&inW(s)), M:S.sessions.filter(s=>s.t==="M"&&inW(s)).length, total:S.sessions.filter(inW).length };
 }
 
-/* ================= SESSAO ================= */
+/* ================= SESSION ================= */
 function openSession(t){
-  curSession = t; curChecks = {};
-  const ph = phase(), P = PHASES[ph];
-  const list = t==="M" ? MOBILITY : P[t];
-  document.getElementById("sesTag").textContent = t==="M" ? "Todos os dias · 10 min" : `Fase ${ph} · ${P.name}`;
-  document.getElementById("sesTitle").textContent = t==="A"?"Sessão A — Força":t==="B"?"Sessão B — Controle e propriocepção":"Mobilidade diária";
-  document.getElementById("sesFocus").textContent = t==="M"
-    ? "Antes de correr, complete com o RAMP: trote leve → ativação com faixa → esta rotina → 3–4 acelerações."
-    : P.focus;
-  const noteBox = document.getElementById("sesLevelNote");
-  if(t!=="M" && S.level!=="int" && P.note[S.level]){
-    noteBox.innerHTML = `<div class="banner blue" style="margin-top:10px"><b>${levelName(S.level)}:</b> ${P.note[S.level]}</div>`;
-  } else noteBox.innerHTML = "";
-  const el = document.getElementById("sesList");
-  el.innerHTML = list.map((e,i)=>`
-    <div class="ex" id="ex${i}" onclick="toggleEx(${i})">
-      <div class="box"></div>
-      <div>
-        <div class="nm">${e.n}</div>
-        <div class="ds">${e.d}</div>
-        ${VIDEOS[e.id] ? `<a class="vid" href="${VIDEOS[e.id]}" target="_blank" onclick="event.stopPropagation()">▶ ver vídeo</a>` : ""}
-      </div>
-    </div>`).join("");
-  updateDoneBtn(list.length);
-  show("vSession");
+  curSession=t; curChecks={};
+  const ph=phase(),P=PHASES[ph], list=t==="M"?MOBILITY:P[t];
+  document.getElementById("sesTag").textContent=t==="M"?"Todos os dias · 10 min":`Fase ${ph} · ${P.name}`;
+  document.getElementById("sesTitle").textContent=t==="A"?"Sessão A — Força":t==="B"?"Sessão B — Controle e propriocepção":"Mobilidade diária";
+  document.getElementById("sesFocus").textContent=t==="M"?"Antes de correr, complete com o RAMP: trote leve → ativação com faixa → esta rotina → 3–4 acelerações.":P.focus;
+  const nb=document.getElementById("sesLevelNote");
+  nb.innerHTML=(t!=="M"&&S.level!=="int"&&P.note[S.level])?`<div class="banner blue" style="margin-top:10px"><b>${levelName(S.level)}:</b> ${P.note[S.level]}</div>`:"";
+  document.getElementById("sesList").innerHTML=list.map((e,i)=>`<div class="ex" id="ex${i}" onclick="toggleEx(${i})"><div class="box"></div><div><div class="nm">${e.n}</div><div class="ds">${e.d}</div>${VIDEOS[e.id]?`<a class="vid" href="${VIDEOS[e.id]}" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ ver vídeo</a>`:""}</div></div>`).join("");
+  updateDoneBtn(list.length); show("vSession");
 }
 function toggleEx(i){
-  curChecks[i] = !curChecks[i];
-  const row = document.getElementById("ex"+i);
-  row.classList.toggle("done", curChecks[i]);
-  row.querySelector(".box").textContent = curChecks[i] ? "✓" : "";
-  const total = document.querySelectorAll("#sesList .ex").length;
-  updateDoneBtn(total);
+  curChecks[i]=!curChecks[i];
+  const row=document.getElementById("ex"+i);
+  row.classList.toggle("done",curChecks[i]);
+  row.querySelector(".box").textContent=curChecks[i]?"✓":"";
+  updateDoneBtn(document.querySelectorAll("#sesList .ex").length);
 }
-function updateDoneBtn(total){
-  const done = Object.values(curChecks).filter(Boolean).length;
-  const btn = document.getElementById("sesDoneBtn");
-  btn.textContent = done===total ? "Concluir sessão ✔" : `Concluir sessão (${done}/${total})`;
-}
+function updateDoneBtn(total){ const done=Object.values(curChecks).filter(Boolean).length; document.getElementById("sesDoneBtn").textContent=done===total?"Concluir sessão ✔":`Concluir sessão (${done}/${total})`; }
 function completeSession(){
-  S.sessions.push({ d:today(), t:curSession, ph:phase() });
-  save();
-  alert("Sessão registrada! 💪 Consistência é o que previne lesão.");
-  show("vHome");
+  const total=document.querySelectorAll("#sesList .ex").length, done=Object.values(curChecks).filter(Boolean).length;
+  S.sessions.push({d:today(),t:curSession,ph:phase(),done,total}); save();
+  alert("Sessão registrada! 💪 Consistência é o que previne lesão."); show("vHome");
 }
 
-/* ================= DOR ================= */
-function logPain(c){
-  S.pain.push({ d:today(), c });
-  save();
-  renderPain(c);
-}
+/* ================= PAIN ================= */
+function logPain(c){ S.pain.push({d:today(),c}); save(); renderPain(c); }
 function renderPain(justLogged){
-  const g = document.getElementById("painGuide");
-  const c = justLogged || null;
-  if(c==="y"){
-    g.innerHTML = `<div class="card"><span class="tag">Protocolo pós-dor (amarelo)</span>
-      <p>1 · Corte o volume de corrida pela metade; tire ritmo forte e descidas por 3–5 dias.<br><br>
-      2 · Na força, volte às doses da fase anterior e mantenha só os exercícios sem dor.<br><br>
-      3 · Mantenha a mobilidade diária.<br><br>
-      4 · Teste de retorno: 15 min de trote leve → dor ≤ 3/10 durante e na manhã seguinte? Retome a progressão.<br><br>
-      5 · Dor voltou 2x no mesmo lugar? Poste vídeo + descrição no grupo.</p></div>`;
-  } else if(c==="r"){
-    g.innerHTML = `<div class="card" style="border-color:rgba(214,69,69,.5)"><span class="tag" style="color:#F0A0A0">Pare e fale com a gente</span>
-      <p>Não faça a sessão de força hoje. Descreva a dor (local, quando começou, o que piora) e mande no grupo ou no direct <b style="color:var(--sky)">@vyni.fisio</b>. Vamos te orientar antes do próximo treino.</p></div>`;
-  } else if(c==="g"){
-    g.innerHTML = `<div class="card"><span class="tag" style="color:#7FDCA9">Tudo certo</span><p>Semáforo verde registrado. Treine e progrida normalmente. 👊</p></div>`;
-  } else g.innerHTML = "";
-  const h = document.getElementById("painHistory");
-  if(!S.pain.length){ h.innerHTML = "<p>Nenhum registro ainda.</p>"; return }
-  const colors = {g:"var(--green)", y:"var(--amber)", r:"var(--red)"};
-  const names = {g:"Verde", y:"Amarelo", r:"Vermelho"};
-  h.innerHTML = S.pain.slice(-14).reverse().map(p=>
-    `<div class="log"><span class="dot" style="background:${colors[p.c]}"></span>${p.d.split("-").reverse().join("/")} — ${names[p.c]}</div>`).join("");
+  const g=document.getElementById("painGuide"), c=justLogged||null;
+  if(c==="y") g.innerHTML=`<div class="card"><span class="tag">Protocolo pós-dor (amarelo)</span><p>1 · Corte o volume de corrida pela metade; tire ritmo forte e descidas por 3–5 dias.<br><br>2 · Na força, volte às doses da fase anterior e mantenha só os exercícios sem dor.<br><br>3 · Mantenha a mobilidade diária.<br><br>4 · Teste de retorno: 15 min de trote leve → dor ≤ 3/10 durante e na manhã seguinte? Retome a progressão.<br><br>5 · Dor voltou 2x no mesmo lugar? Poste vídeo + descrição no grupo.</p></div>`;
+  else if(c==="r") g.innerHTML=`<div class="card" style="border-color:rgba(214,69,69,.5)"><span class="tag" style="color:#F0A0A0">Pare e fale com a gente</span><p>Não faça a sessão de força hoje. Descreva a dor (local, quando começou, o que piora) e mande no grupo ou no direct <b style="color:var(--sky)">@vyni.fisio</b>.</p></div>`;
+  else if(c==="g") g.innerHTML=`<div class="card"><span class="tag" style="color:#7FDCA9">Tudo certo</span><p>Semáforo verde registrado. Treine e progrida normalmente. 👊</p></div>`;
+  else g.innerHTML="";
+  const h=document.getElementById("painHistory");
+  if(!S.pain.length){ h.innerHTML="<p>Nenhum registro ainda.</p>"; return; }
+  const col={g:"var(--green)",y:"var(--amber)",r:"var(--red)"},nm={g:"Verde",y:"Amarelo",r:"Vermelho"};
+  h.innerHTML=S.pain.slice(-14).reverse().map(p=>`<div class="log"><span class="dot" style="background:${col[p.c]}"></span>${br(p.d)} — ${nm[p.c]}</div>`).join("");
 }
 
-/* ================= PERFIL ================= */
+/* ================= REPORT ================= */
+function renderReport(){
+  const strength=S.sessions.filter(s=>s.t!=="M").length, mob=S.sessions.filter(s=>s.t==="M").length;
+  document.getElementById("repName").textContent=`Evolução de ${S.name}`;
+  document.getElementById("repSummary").textContent=`${strength} de 16 sessões de força · ${mob} de mobilidade · semana ${week()} de 8`;
+  document.getElementById("repBar").style.width=Math.min(100,Math.round(strength/16*100))+"%";
+  const wnow=week(); let html="";
+  for(let w=1;w<=Math.max(wnow,1);w++){ const t=weekSessions(w).total; const pct=Math.min(100,t/4*100); html+=`<div class="col"><div class="vl">${t||""}</div><div class="bar" style="height:${pct}%"></div><div class="lb">S${w}</div></div>`; }
+  document.getElementById("repBars").innerHTML=html||`<p style="color:var(--mut)">Comece sua primeira sessão para ver o gráfico.</p>`;
+  const rp=document.getElementById("repPain");
+  if(!S.pain.length) rp.innerHTML=`<p style="color:var(--mut);margin-top:4px">Nenhum registro de dor ainda.</p>`;
+  else { const cnt={g:0,y:0,r:0}; S.pain.forEach(p=>cnt[p.c]++); const col={g:"var(--green)",y:"var(--amber)",r:"var(--red)"},nm={g:"Verde",y:"Amarelo",r:"Vermelho"}; rp.innerHTML=`<p style="color:var(--mut);margin-top:4px">🟢 ${cnt.g} · 🟡 ${cnt.y} · 🔴 ${cnt.r}</p><div style="margin-top:8px">${S.pain.slice(-10).reverse().map(p=>`<div class="log"><span class="dot" style="background:${col[p.c]}"></span>${br(p.d)} — ${nm[p.c]}</div>`).join("")}</div>`; }
+  const ra=document.getElementById("repAssess");
+  const fmt=(t,r)=>{ if(!r) return "—"; if(!r.yes) return "Não"; if(t.kind==="quality") return "Sim"; return (r.val!==""&&r.val!=null)?r.val+(t.kind==="time"?"s":t.kind==="dist"?"%":""):"Sim"; };
+  const rows=ASSESS.map(t=>{
+    const a0=S.assess0?S.assess0[t.id]:null, a8=S.assess8?S.assess8[t.id]:null; let delta="";
+    if(a0&&a8&&t.kind!=="quality"&&a0.yes&&a8.yes&&a0.val&&a8.val){ const d=Number(a8.val)-Number(a0.val); delta=d>0?`<span class="up">▲ +${d}</span>`:d<0?`<span class="same">▼ ${d}</span>`:`<span class="same">=</span>`; }
+    else if(a0&&a8&&t.kind==="quality"){ delta=(!a0.yes&&a8.yes)?`<span class="up">▲</span>`:""; }
+    return `<tr><td>${t.q}</td><td class="n">${fmt(t,a0)}</td><td class="n">${fmt(t,a8)}</td><td class="n">${delta}</td></tr>`;
+  }).join("");
+  ra.innerHTML=`<table class="cmp"><tr><th>Teste</th><th>Início</th><th>Agora</th><th></th></tr>${rows}</table>`;
+  const btn=document.getElementById("reassessBtn");
+  if(week()>=8){ btn.style.display="block"; btn.textContent=S.assess8?"Refazer reavaliação":"Fazer reavaliação (semana 8) ✔"; } else btn.style.display="none";
+}
+
+/* ================= PROFILE ================= */
 function renderProfile(){
-  document.getElementById("profName").textContent = S.name;
-  document.getElementById("profInfo").textContent =
-    `Início: ${S.start.split("-").reverse().join("/")} · Semana atual: ${week()} de 8 · Fase ${phase()} (${PHASES[phase()].name})`;
-  document.getElementById("profLevel").textContent = `Nível: ${levelName(S.level)} (${S.pts} pts na avaliação)`;
-  const strength = S.sessions.filter(s=>s.t!=="M").length;
-  document.getElementById("profSessions").textContent = `${strength} de 16 sessões de força concluídas`;
-  document.getElementById("profBar").style.width = Math.min(100, Math.round(strength/16*100))+"%";
-  document.getElementById("profReassess").innerHTML = week()>=8
-    ? "<b style='color:var(--sky)'>Semana 8:</b> refaça os 4 testes da avaliação inicial e compare com seus pontos de entrada. Poste os resultados no grupo para a call final."
-    : "Na semana 8, o app vai te lembrar de refazer os 4 testes da avaliação inicial.";
+  document.getElementById("profName").textContent=S.name;
+  document.getElementById("profInfo").textContent=`Início: ${br(S.start)} · Semana atual: ${week()} de 8 · Fase ${phase()} (${PHASES[phase()].name})`;
+  document.getElementById("profLevel").textContent=`Nível: ${levelName(S.level)} (${S.pts} pts na avaliação)`;
 }
-function resetAll(){
-  if(confirm("Apagar todos os dados e recomeçar?")){ localStorage.removeItem(KEY); location.reload(); }
-}
+function resetAll(){ if(confirm("Apagar todos os dados e recomeçar?")){ localStorage.removeItem(KEY); location.reload(); } }
 
 /* ================= BOOT ================= */
-function render(){ if(S) renderHome(); }
+function boot(){
+  if(!unlocked()){ show("vGate"); document.getElementById("nHome").classList.remove("on"); return; }
+  S=load();
+  if(S){ show("vHome"); }
+  else { assessDraft={}; renderAssessInputs(); show("vOnboard"); document.getElementById("nHome").classList.remove("on"); }
+}
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
-if(S){ show("vHome"); } else { show("vOnboard"); document.getElementById("nHome").classList.remove("on"); }
+boot();
 </script>
 </body>
 </html>
