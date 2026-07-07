@@ -71,3 +71,19 @@ const VIDEOS_TESTES = { balance:"", calf:"", bridge:"", stepdown:"", hop:"" };
 ```
 Grave cada teste, suba no YouTube como "Não listado" e cole o link.
 O botão "▶ ver como fazer o teste" aparece sozinho em cada teste com link.
+
+## v2.2 — PROGRESSÃO SEMANA A SEMANA + SESSÕES RENOMEADAS
+- Sessões agora na ordem (A) Mobilidade → (B) Controle → (C) Força
+- Cada uma das 8 semanas tem doses próprias (modelo por data, livre):
+  o app mostra a semana correta automaticamente pela data de início.
+- Mobilidade progride nas semanas 2–3 e de novo nas 7–8; força nas semanas 7–8
+  sobe para 4 séries de 10 repetições.
+- Aviso de segurança em toda sessão de treino: respeitar o ângulo de proteção
+  (faixa de movimento sem dor) se houver dor ou limitação.
+- Botão de vídeo por exercício ("▶ ver vídeo do exercício") e por teste
+  ("▶ ver como fazer o teste") — aparecem quando os links são preenchidos em
+  VIDEOS e VIDEOS_TESTES.
+
+### Novos ids de vídeo (exercícios de mobilidade adicionados)
+mob7 (adutores rock back), mob8 (agachamento com rotação/reach),
+mob9 (world's greatest), hop_lat (hop-and-stick lateral).

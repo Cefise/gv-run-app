@@ -152,9 +152,9 @@ table.cmp td.n{color:var(--sky);font-weight:800;text-align:center;white-space:no
   </div>
   <div class="banner warn hidden" id="painBanner"></div>
   <h2 class="sec">Sua sessão de hoje</h2>
-  <button class="btn" onclick="openSession('A')">💪 Sessão A — Força</button>
-  <button class="btn ghost" onclick="openSession('B')">🎯 Sessão B — Controle</button>
-  <button class="btn ghost" onclick="openSession('M')">🌀 Mobilidade diária (10 min)</button>
+  <button class="btn" onclick="openSession('M')">🌀 (A) Mobilidade — 10 min</button>
+  <button class="btn ghost" onclick="openSession('B')">🎯 (B) Controle e propriocepção</button>
+  <button class="btn ghost" onclick="openSession('C')">💪 (C) Força</button>
   <div style="height:14px"></div>
   <div class="card">
     <span class="tag">Esta semana</span>
@@ -251,9 +251,9 @@ const ACCESS_PASSWORD = "GVRUN2025";
    ===================================================================== */
 const VIDEOS = {
   pant:"", heel:"", agach_uni:"", rdl:"", pallof:"", bulgaro:"", declinio:"",
-  rdl_uni:"", hop:"", spanish:"", stepdown:"", equi:"", tibial:"", pecurto:"",
+  rdl_uni:"", hop:"", hop_lat:"", spanish:"", stepdown:"", equi:"", tibial:"", pecurto:"",
   prancha:"", faixa:"", pogo:"", curl:"",
-  mob1:"", mob2:"", mob3:"", mob4:"", mob5:"", mob6:""
+  mob1:"", mob2:"", mob3:"", mob4:"", mob5:"", mob6:"", mob7:"", mob8:"", mob9:""
 };
 
 /* =====================================================================
@@ -297,36 +297,70 @@ function avg3(arr){
   return Math.round(v.reduce((a,b)=>a+b,0)/v.length);
 }
 
-const MOBILITY = [
-  {id:"mob1", n:"Balanços de perna (frontal e lateral)", d:"10 / direção / lado"},
-  {id:"mob2", n:"90/90 de quadril", d:"8–10 / lado"},
-  {id:"mob3", n:"Mobilização de tornozelo (joelho à parede)", d:"10 / lado"},
-  {id:"mob4", n:"Flexores de quadril (afundo ajoelhado)", d:"30–45 s / lado"},
-  {id:"mob5", n:"Rotação torácica em 4 apoios", d:"8 / lado"},
-  {id:"mob6", n:"Agachamento profundo com apoio", d:"5 × 5 s"}
-];
+/* Info de fase (só para o texto do topo) */
+const PHASE_INFO = {
+  1:{name:"Adaptação", focus:"Aprender a técnica e preparar músculos e tendões. Esforço leve (RPE 5–6). Dor muscular tardia leve é normal."},
+  2:{name:"Construção", focus:"Subir a carga com técnica dominada (RPE 6–7). Na semana 4, reduza o volume de corrida em ~20% (deload)."},
+  3:{name:"Intensificação", focus:"Excêntricos pesados + pliometria leve (RPE 7–8). Faça ≥ 48 h antes dos treinos-chave."},
+  4:{name:"Consolidação e potência", focus:"Transformar força em resistência à fadiga. Se tem prova, esta fase é a preparação final."}
+};
+function phaseOf(w){ return Math.ceil(w/2); }
 
-const PHASES = {
- 1:{name:"Adaptação", weeks:"1–2",
-   focus:"Aprender a técnica e preparar músculos e tendões. Esforço leve (RPE 5–6). Dor muscular tardia leve é normal.",
-   note:{ini:"Panturrilha e RDL com as duas pernas; prancha com joelhos apoiados.", av:"Adicione carga leve na panturrilha e no RDL desde já."},
-   A:[{id:"pant",n:"Panturrilha pesada (joelho estendido + fletido)",d:"3 × 10 · descida 3 s"},{id:"heel",n:"Heel drop excêntrico",d:"2 × 10 / perna"},{id:"agach_uni",n:"Agachamento unipodal (apoie os dedos se precisar)",d:"3 × 6 / lado"},{id:"rdl",n:"RDL leve",d:"3 × 8"},{id:"pallof",n:"Pallof press",d:"3 × 8 / lado"}],
-   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"3 × 30 s"},{id:"stepdown",n:"Step-down em degrau baixo",d:"3 × 8 / lado"},{id:"equi",n:"Equilíbrio unipodal (olhos abertos)",d:"3 × 30 s"},{id:"tibial",n:"Tibial anterior",d:"3 × 15"},{id:"pecurto",n:"Pé curto / intrínsecos",d:"3 × 8 (5 s)"},{id:"prancha",n:"Prancha lateral",d:"3 × 20 s / lado"}]},
- 2:{name:"Construção", weeks:"3–4",
-   focus:"Subir a carga com técnica dominada (RPE 6–7). Na semana 4, reduza o volume de corrida em ~20%.",
-   note:{ini:"Búlgaro sem carga e step-down baixo por mais 1 semana.", av:"Panturrilha unipodal com carga; RDL unipodal no lugar do bilateral."},
-   A:[{id:"pant",n:"Panturrilha pesada com carga",d:"3 × 8–10 · descida 3 s"},{id:"heel",n:"Heel drop excêntrico",d:"3 × 12 / perna"},{id:"bulgaro",n:"Agachamento búlgaro",d:"3 × 8 / lado"},{id:"rdl",n:"RDL com carga",d:"3 × 8"},{id:"pallof",n:"Pallof press",d:"3 × 10 / lado"}],
-   B:[{id:"spanish",n:"Spanish Squat",d:"4 × 40 s"},{id:"stepdown",n:"Step-down (degrau mais alto)",d:"3 × 10 / lado"},{id:"equi",n:"Equilíbrio unipodal (olhos fechados)",d:"3 × 30 s"},{id:"faixa",n:"Caminhada lateral com faixa",d:"3 × 12 passos"},{id:"tibial",n:"Tibial anterior",d:"3 × 18"},{id:"prancha",n:"Prancha lateral",d:"3 × 30 s / lado"}]},
- 3:{name:"Intensificação", weeks:"5–6",
-   focus:"Excêntricos pesados + primeira pliometria leve (RPE 7–8). Faça ≥ 48 h antes dos treinos-chave.",
-   note:{ini:"Adie os pogo hops 1 semana; mantenha equilíbrio olhos fechados no lugar.", av:"Aumente a carga nos excêntricos mantendo a descida de 3–4 s."},
-   A:[{id:"pant",n:"Panturrilha pesada",d:"4 × 8 · carga desafiadora"},{id:"heel",n:"Heel drop com carga (mochila)",d:"3 × 15 / perna"},{id:"declinio",n:"Agachamento em declínio unipodal",d:"3 × 8 · descida 3–4 s"},{id:"rdl_uni",n:"RDL unipodal excêntrico",d:"3 × 6 / lado · descida 4 s"},{id:"pallof",n:"Pallof press",d:"3 × 10 / lado"}],
-   B:[{id:"pogo",n:"Pogo hops (pliometria)",d:"2 × 15"},{id:"stepdown",n:"Step-down",d:"3 × 10 / lado"},{id:"bulgaro",n:"Búlgaro excêntrico",d:"3 × 8 / lado · descida 3–4 s"},{id:"curl",n:"Curl deslizante (isquiotibiais)",d:"3 × 8"},{id:"equi",n:"Equilíbrio em superfície instável",d:"3 × 30 s"},{id:"prancha",n:"Prancha lateral dinâmica",d:"3 × 10 / lado"}]},
- 4:{name:"Consolidação e potência", weeks:"7–8",
-   focus:"Transformar força em resistência à fadiga da corrida. Se tem prova, esta fase é sua preparação final.",
-   note:{ini:"Hop-and-stick: comece só para frente, sem giro.", av:"Pogo com avanço; hop-and-stick lateral e com giro."},
-   A:[{id:"pant",n:"Panturrilha pesada",d:"3 × 8 · manter carga"},{id:"declinio",n:"Agachamento em declínio unipodal",d:"3 × 8"},{id:"rdl",n:"RDL (bilateral ou unipodal)",d:"3 × 8"},{id:"pogo",n:"Pogo hops",d:"3 × 20"},{id:"hop",n:"Hop-and-stick (salte e trave 2–3 s)",d:"3 × 5 / direção"}],
-   B:[{id:"spanish",n:"Spanish Squat",d:"3 × 45 s"},{id:"stepdown",n:"Step-down",d:"3 × 10 / lado"},{id:"faixa",n:"Caminhada lateral com faixa",d:"3 × 15 passos"},{id:"pecurto",n:"Pé curto + tibial anterior",d:"3 × 10 + 3 × 20"},{id:"prancha",n:"Prancha lateral",d:"3 × 40 s / lado"}]}
+/* Notas de nível por fase */
+const LEVEL_NOTE = {
+  1:{ini:"Panturrilha e RDL com as duas pernas; prancha com joelhos apoiados.", av:"Adicione carga leve na panturrilha e no RDL desde já."},
+  2:{ini:"Búlgaro sem carga e step-down baixo por mais 1 semana.", av:"Panturrilha unipodal com carga; RDL unipodal no lugar do bilateral."},
+  3:{ini:"Adie os pogo hops 1 semana; mantenha equilíbrio olhos fechados no lugar.", av:"Aumente a carga nos excêntricos mantendo a descida de 3–4 s."},
+  4:{ini:"Hop-and-stick: comece só para frente, sem giro.", av:"Pogo com avanço; hop-and-stick lateral e com giro."}
+};
+
+/* Aviso de segurança em toda sessão de treino */
+const SAFETY_NOTE = "Se sentir dor ou tiver alguma limitação, reduza a amplitude e trabalhe apenas no ângulo de proteção (a faixa de movimento sem dor). Prevenção não precisa doer.";
+
+/* ============ PROGRESSÃO SEMANA A SEMANA ============
+   WEEKS[semana] = { M:[mobilidade], B:[controle], C:[força] }
+   Cada item: {id, n, d} */
+const WEEKS = {
+ 1:{
+   M:[{id:"mob1",n:"Balanços de perna (frontal e lateral)",d:"10 / direção / lado"},{id:"mob2",n:"90/90 de quadril",d:"8–10 / lado"},{id:"mob3",n:"Mobilização de tornozelo (joelho à parede)",d:"10 / lado"},{id:"mob4",n:"Flexores de quadril (afundo ajoelhado)",d:"30–45 s / lado"},{id:"mob5",n:"Rotação torácica em 4 apoios",d:"8 / lado"},{id:"mob6",n:"Agachamento profundo com apoio",d:"5 × 5 s"}],
+   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"3 × 30 s"},{id:"stepdown",n:"Step-down em degrau baixo",d:"3 × 8 / lado"},{id:"equi",n:"Equilíbrio unipodal (olhos abertos)",d:"3 × 30 s"},{id:"tibial",n:"Tibial anterior",d:"3 × 15"},{id:"prancha",n:"Prancha lateral",d:"3 × 20 s / lado"}],
+   C:[{id:"pant",n:"Panturrilha pesada (joelho estendido + fletido)",d:"3 × 10 · descida 3 s"},{id:"heel",n:"Heel drop excêntrico",d:"2 × 10 / perna"},{id:"agach_uni",n:"Agachamento unipodal (apoie os dedos se precisar)",d:"3 × 6 / lado"},{id:"rdl",n:"RDL leve",d:"3 × 8"},{id:"pallof",n:"Pallof press",d:"3 × 8 / lado"}]
+ },
+ 2:{
+   M:[{id:"mob1",n:"Balanços de perna (frontal e lateral)",d:"12 / direção / lado"},{id:"mob2",n:"90/90 de quadril com rotação de tronco",d:"8 / lado"},{id:"mob3",n:"Mobilização de tornozelo (joelho à parede)",d:"12 / lado"},{id:"mob4",n:"Flexores de quadril (afundo ajoelhado)",d:"30–45 s / lado"},{id:"mob5",n:"Rotação torácica em 4 apoios",d:"10 / lado"},{id:"mob7",n:"Mobilidade de adutores (rock back)",d:"8–10 / lado"},{id:"mob6",n:"Agachamento profundo com apoio",d:"5 × 5 s"}],
+   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"3 × 40 s"},{id:"stepdown",n:"Step-down",d:"3 × 10 / lado"},{id:"equi",n:"Equilíbrio unipodal (olhos fechados)",d:"3 × 30 s"},{id:"tibial",n:"Tibial anterior",d:"3 × 18"},{id:"prancha",n:"Prancha lateral",d:"3 × 25 s / lado"}],
+   C:[{id:"pant",n:"Panturrilha pesada (joelho estendido + fletido)",d:"3 × 12 · descida 3 s"},{id:"heel",n:"Heel drop excêntrico",d:"3 × 12 / perna"},{id:"agach_uni",n:"Agachamento unipodal",d:"3 × 8 / lado"},{id:"rdl",n:"RDL",d:"3 × 10"},{id:"pallof",n:"Pallof press",d:"3 × 10 / lado"}]
+ },
+ 3:{
+   M:[{id:"mob1",n:"Balanços de perna (frontal e lateral)",d:"12 / direção / lado"},{id:"mob2",n:"90/90 de quadril com rotação de tronco",d:"8 / lado"},{id:"mob3",n:"Mobilização de tornozelo (joelho à parede)",d:"12 / lado"},{id:"mob4",n:"Flexores de quadril — versão dinâmica (pulsos)",d:"10 pulsos / lado"},{id:"mob5",n:"Rotação torácica em 4 apoios",d:"10 / lado"},{id:"mob7",n:"Mobilidade de adutores (rock back)",d:"10 / lado"},{id:"mob6",n:"Agachamento profundo com apoio",d:"5 × 5 s"}],
+   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"4 × 40 s"},{id:"stepdown",n:"Step-down (degrau mais alto)",d:"3 × 10 / lado"},{id:"faixa",n:"Caminhada lateral com faixa",d:"3 × 12 passos"},{id:"pecurto",n:"Pé curto / intrínsecos",d:"3 × 10 (5 s)"},{id:"prancha",n:"Prancha lateral",d:"3 × 30 s / lado"}],
+   C:[{id:"pant",n:"Panturrilha pesada com carga",d:"3 × 10 · descida 3 s"},{id:"heel",n:"Heel drop excêntrico",d:"3 × 12 / perna"},{id:"bulgaro",n:"Agachamento búlgaro",d:"3 × 8 / lado"},{id:"rdl",n:"RDL com carga",d:"3 × 8"},{id:"pallof",n:"Pallof press",d:"3 × 10 / lado"}]
+ },
+ 4:{
+   M:[{id:"mob1",n:"Balanços de perna (frontal e lateral)",d:"12 / direção / lado"},{id:"mob2",n:"90/90 de quadril com rotação de tronco",d:"8 / lado"},{id:"mob3",n:"Mobilização de tornozelo (joelho à parede)",d:"12 / lado"},{id:"mob4",n:"Flexores de quadril — versão dinâmica (pulsos)",d:"10 pulsos / lado"},{id:"mob5",n:"Rotação torácica em 4 apoios",d:"10 / lado"},{id:"mob7",n:"Mobilidade de adutores (rock back)",d:"10 / lado"},{id:"mob6",n:"Agachamento profundo com apoio",d:"5 × 5 s"}],
+   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"3 × 40 s"},{id:"stepdown",n:"Step-down",d:"3 × 8 / lado"},{id:"equi",n:"Equilíbrio em superfície instável",d:"3 × 30 s"},{id:"pecurto",n:"Pé curto / intrínsecos",d:"3 × 10"},{id:"prancha",n:"Prancha lateral",d:"3 × 25 s / lado"}],
+   C:[{id:"pant",n:"Panturrilha pesada com carga",d:"3 × 8 · descida 3 s"},{id:"heel",n:"Heel drop excêntrico",d:"3 × 10 / perna"},{id:"bulgaro",n:"Agachamento búlgaro",d:"3 × 6 / lado"},{id:"rdl",n:"RDL",d:"3 × 8"},{id:"pallof",n:"Pallof press",d:"3 × 8 / lado"}]
+ },
+ 5:{
+   M:[{id:"mob1",n:"Balanços de perna (frontal e lateral)",d:"12 / direção / lado"},{id:"mob2",n:"90/90 de quadril com rotação de tronco",d:"8 / lado"},{id:"mob3",n:"Mobilização de tornozelo (joelho à parede)",d:"12 / lado"},{id:"mob4",n:"Flexores de quadril — versão dinâmica (pulsos)",d:"10 pulsos / lado"},{id:"mob5",n:"Rotação torácica em 4 apoios",d:"10 / lado"},{id:"mob7",n:"Mobilidade de adutores (rock back)",d:"10 / lado"},{id:"mob6",n:"Agachamento profundo com apoio",d:"5 × 5 s"}],
+   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"4 × 45 s"},{id:"stepdown",n:"Step-down com carga leve",d:"3 × 10 / lado"},{id:"equi",n:"Equilíbrio em superfície instável",d:"3 × 40 s"},{id:"pogo",n:"Pogo hops (pliometria)",d:"2 × 15"},{id:"prancha",n:"Prancha lateral dinâmica",d:"3 × 10 / lado"}],
+   C:[{id:"pant",n:"Panturrilha pesada",d:"4 × 8 · carga desafiadora"},{id:"heel",n:"Heel drop com carga (mochila)",d:"3 × 15 / perna"},{id:"declinio",n:"Agachamento em declínio unipodal",d:"3 × 8 · descida 3–4 s"},{id:"rdl_uni",n:"RDL unipodal excêntrico",d:"3 × 6 / lado · descida 4 s"},{id:"pallof",n:"Pallof press",d:"3 × 10 / lado"}]
+ },
+ 6:{
+   M:[{id:"mob1",n:"Balanços de perna (frontal e lateral)",d:"12 / direção / lado"},{id:"mob2",n:"90/90 de quadril com rotação de tronco",d:"8 / lado"},{id:"mob3",n:"Mobilização de tornozelo (joelho à parede)",d:"12 / lado"},{id:"mob4",n:"Flexores de quadril — versão dinâmica (pulsos)",d:"10 pulsos / lado"},{id:"mob5",n:"Rotação torácica em 4 apoios",d:"10 / lado"},{id:"mob7",n:"Mobilidade de adutores (rock back)",d:"10 / lado"},{id:"mob6",n:"Agachamento profundo com apoio",d:"5 × 5 s"}],
+   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"4 × 45 s"},{id:"stepdown",n:"Step-down com carga",d:"3 × 12 / lado"},{id:"equi",n:"Equilíbrio instável + perturbação",d:"3 × 30 s"},{id:"pogo",n:"Pogo hops (pliometria)",d:"3 × 15"},{id:"prancha",n:"Prancha lateral dinâmica",d:"3 × 12 / lado"}],
+   C:[{id:"pant",n:"Panturrilha pesada",d:"4 × 8 · carga desafiadora"},{id:"heel",n:"Heel drop com carga (mochila)",d:"3 × 15 / perna"},{id:"declinio",n:"Agachamento em declínio unipodal",d:"3 × 10 · descida 3–4 s"},{id:"bulgaro",n:"Búlgaro excêntrico",d:"3 × 8 / lado · descida 3–4 s"},{id:"curl",n:"Curl deslizante (isquiotibiais)",d:"3 × 8"}]
+ },
+ 7:{
+   M:[{id:"mob1",n:"Balanços de perna (frontal e lateral)",d:"12 / direção / lado"},{id:"mob8",n:"Agachamento profundo com rotação (reach)",d:"8 / lado"},{id:"mob2",n:"90/90 de quadril com rotação de tronco",d:"10 / lado"},{id:"mob3",n:"Mobilização de tornozelo (joelho à parede)",d:"12 / lado"},{id:"mob4",n:"Flexores de quadril — versão dinâmica (pulsos)",d:"12 pulsos / lado"},{id:"mob9",n:"Rotação torácica em pé (world's greatest)",d:"6 / lado"},{id:"mob7",n:"Mobilidade de adutores (rock back)",d:"10 / lado"}],
+   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"3 × 45 s"},{id:"stepdown",n:"Step-down",d:"3 × 10 / lado"},{id:"faixa",n:"Caminhada lateral com faixa",d:"3 × 15 passos"},{id:"pogo",n:"Pogo hops (pliometria)",d:"3 × 20"},{id:"pecurto",n:"Pé curto + tibial anterior",d:"3 × 10 + 3 × 20"}],
+   C:[{id:"pant",n:"Panturrilha pesada",d:"4 × 10 · mantém carga"},{id:"declinio",n:"Agachamento em declínio unipodal",d:"4 × 10"},{id:"rdl",n:"RDL (bilateral ou unipodal)",d:"4 × 10"},{id:"pogo",n:"Pogo hops",d:"3 × 20"},{id:"hop",n:"Hop-and-stick (salte e trave 2–3 s)",d:"3 × 5 / direção"}]
+ },
+ 8:{
+   M:[{id:"mob1",n:"Balanços de perna (frontal e lateral)",d:"12 / direção / lado"},{id:"mob8",n:"Agachamento profundo com rotação (reach)",d:"8 / lado"},{id:"mob2",n:"90/90 de quadril com rotação de tronco",d:"10 / lado"},{id:"mob3",n:"Mobilização de tornozelo (joelho à parede)",d:"12 / lado"},{id:"mob4",n:"Flexores de quadril — versão dinâmica (pulsos)",d:"12 pulsos / lado"},{id:"mob9",n:"Rotação torácica em pé (world's greatest)",d:"6 / lado"},{id:"mob7",n:"Mobilidade de adutores (rock back)",d:"10 / lado"}],
+   B:[{id:"spanish",n:"Spanish Squat (isometria)",d:"3 × 45 s"},{id:"hop",n:"Hop-and-stick frontal",d:"3 × 5 / lado"},{id:"hop_lat",n:"Hop-and-stick lateral",d:"3 × 5 / lado"},{id:"pogo",n:"Pogo hops (pliometria)",d:"3 × 20"},{id:"prancha",n:"Prancha lateral",d:"3 × 40 s / lado"}],
+   C:[{id:"pant",n:"Panturrilha pesada",d:"4 × 10 · mantém carga"},{id:"declinio",n:"Agachamento em declínio unipodal",d:"4 × 10"},{id:"rdl",n:"RDL",d:"4 × 10"},{id:"pogo",n:"Pogo hops",d:"3 × 20"},{id:"hop_lat",n:"Hop-and-stick lateral",d:"3 × 5 / direção"}]
+ }
 };
 
 /* ================= ESTADO ================= */
@@ -546,16 +580,16 @@ function show(id){
 
 /* ================= HOME ================= */
 function renderHome(){
-  const w=week(),ph=phase(),P=PHASES[ph];
-  document.getElementById("homePhaseTag").textContent=`Fase ${ph} · ${P.name} · Semanas ${P.weeks}`;
+  const w=week(),ph=phaseOf(w),P=PHASE_INFO[ph];
+  document.getElementById("homePhaseTag").textContent=`Fase ${ph} · ${P.name} · Semanas ${(ph-1)*2+1}–${ph*2}`;
   document.getElementById("homeGreet").textContent=`Olá, ${S.name}! Semana ${w} de 8`;
   document.getElementById("homeMsg").textContent=P.focus;
   document.getElementById("homeBar").style.width=Math.round(w/8*100)+"%";
   document.getElementById("homeWeekChip").textContent=`Nível: ${levelName(S.level)}`;
   const wk=weekSessions();
-  document.getElementById("weekDoneTitle").textContent=`Concluídas: ${wk.A?"✅":"⬜"} Sessão A · ${wk.B?"✅":"⬜"} Sessão B · 🌀 ${wk.M}x mobilidade`;
+  document.getElementById("weekDoneTitle").textContent=`Concluídas: 🌀 ${wk.M}x mobilidade · ${wk.B?"✅":"⬜"} Controle · ${wk.C?"✅":"⬜"} Força`;
   const lp=S.pain[S.pain.length-1], pb=document.getElementById("painBanner");
-  if(lp&&lp.d===today()&&lp.c!=="g"){ pb.classList.remove("hidden"); pb.textContent=lp.c==="y"?"🟡 Você registrou dor amarela hoje: volte às doses da fase anterior e mantenha só o que não dói. Veja o protocolo na aba Dor.":"🔴 Você registrou dor vermelha hoje: não treine força. Fale com a gente antes da próxima sessão."; }
+  if(lp&&lp.d===today()&&lp.c!=="g"){ pb.classList.remove("hidden"); pb.textContent=lp.c==="y"?"🟡 Você registrou dor amarela hoje: volte às doses da semana anterior e mantenha só o que não dói. Veja o protocolo na aba Dor.":"🔴 Você registrou dor vermelha hoje: não treine força. Fale com a gente antes da próxima sessão."; }
   else pb.classList.add("hidden");
 }
 function weekSessions(w){
@@ -563,19 +597,26 @@ function weekSessions(w){
   const start=new Date(S.start); start.setDate(start.getDate()+(w-1)*7);
   const end=new Date(start); end.setDate(end.getDate()+7);
   const inW=s=>{const d=new Date(s.d);return d>=start&&d<end};
-  return { A:S.sessions.some(s=>s.t==="A"&&inW(s)), B:S.sessions.some(s=>s.t==="B"&&inW(s)), M:S.sessions.filter(s=>s.t==="M"&&inW(s)).length, total:S.sessions.filter(inW).length };
+  return { B:S.sessions.some(s=>s.t==="B"&&inW(s)), C:S.sessions.some(s=>s.t==="C"&&inW(s)), M:S.sessions.filter(s=>s.t==="M"&&inW(s)).length, total:S.sessions.filter(inW).length };
 }
 
 /* ================= SESSION ================= */
 function openSession(t){
   curSession=t; curChecks={};
-  const ph=phase(),P=PHASES[ph], list=t==="M"?MOBILITY:P[t];
-  document.getElementById("sesTag").textContent=t==="M"?"Todos os dias · 10 min":`Fase ${ph} · ${P.name}`;
-  document.getElementById("sesTitle").textContent=t==="A"?"Sessão A — Força":t==="B"?"Sessão B — Controle e propriocepção":"Mobilidade diária";
-  document.getElementById("sesFocus").textContent=t==="M"?"Antes de correr, complete com o RAMP: trote leve → ativação com faixa → esta rotina → 3–4 acelerações.":P.focus;
+  const w=week(), ph=phaseOf(w), P=PHASE_INFO[ph];
+  const list = WEEKS[w][t];
+  const titles = {M:"(A) Mobilidade", B:"(B) Controle e propriocepção", C:"(C) Força"};
+  document.getElementById("sesTag").textContent = t==="M" ? `Semana ${w} · todos os dias` : `Semana ${w} · Fase ${ph} · ${P.name}`;
+  document.getElementById("sesTitle").textContent = titles[t];
+  document.getElementById("sesFocus").textContent = t==="M"
+    ? "Antes de correr, complete com o RAMP: trote leve → ativação com faixa → esta rotina → 3–4 acelerações."
+    : P.focus;
   const nb=document.getElementById("sesLevelNote");
-  nb.innerHTML=(t!=="M"&&S.level!=="int"&&P.note[S.level])?`<div class="banner blue" style="margin-top:10px"><b>${levelName(S.level)}:</b> ${P.note[S.level]}</div>`:"";
-  document.getElementById("sesList").innerHTML=list.map((e,i)=>`<div class="ex" id="ex${i}" onclick="toggleEx(${i})"><div class="box"></div><div><div class="nm">${e.n}</div><div class="ds">${e.d}</div>${VIDEOS[e.id]?`<a class="vid" href="${VIDEOS[e.id]}" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ ver vídeo</a>`:""}</div></div>`).join("");
+  let note = "";
+  if(t!=="M" && S.level!=="int" && LEVEL_NOTE[ph][S.level]) note += `<div class="banner blue" style="margin-top:10px"><b>${levelName(S.level)}:</b> ${LEVEL_NOTE[ph][S.level]}</div>`;
+  if(t!=="M") note += `<div class="banner warn" style="margin-top:10px">⚠️ ${SAFETY_NOTE}</div>`;
+  nb.innerHTML = note;
+  document.getElementById("sesList").innerHTML = list.map((e,i)=>`<div class="ex" id="ex${i}" onclick="toggleEx(${i})"><div class="box"></div><div style="flex:1"><div class="nm">${e.n}</div><div class="ds">${e.d}</div>${VIDEOS[e.id]?`<a class="vid" href="${VIDEOS[e.id]}" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ ver vídeo do exercício</a>`:""}</div></div>`).join("");
   updateDoneBtn(list.length); show("vSession");
 }
 function toggleEx(i){
@@ -588,7 +629,7 @@ function toggleEx(i){
 function updateDoneBtn(total){ const done=Object.values(curChecks).filter(Boolean).length; document.getElementById("sesDoneBtn").textContent=done===total?"Concluir sessão ✔":`Concluir sessão (${done}/${total})`; }
 function completeSession(){
   const total=document.querySelectorAll("#sesList .ex").length, done=Object.values(curChecks).filter(Boolean).length;
-  S.sessions.push({d:today(),t:curSession,ph:phase(),done,total}); save();
+  S.sessions.push({d:today(),t:curSession,ph:phaseOf(week()),done,total}); save();
   alert("Sessão registrada! 💪 Consistência é o que previne lesão."); show("vHome");
 }
 
@@ -596,7 +637,7 @@ function completeSession(){
 function logPain(c){ S.pain.push({d:today(),c}); save(); renderPain(c); }
 function renderPain(justLogged){
   const g=document.getElementById("painGuide"), c=justLogged||null;
-  if(c==="y") g.innerHTML=`<div class="card"><span class="tag">Protocolo pós-dor (amarelo)</span><p>1 · Corte o volume de corrida pela metade; tire ritmo forte e descidas por 3–5 dias.<br><br>2 · Na força, volte às doses da fase anterior e mantenha só os exercícios sem dor.<br><br>3 · Mantenha a mobilidade diária.<br><br>4 · Teste de retorno: 15 min de trote leve → dor ≤ 3/10 durante e na manhã seguinte? Retome a progressão.<br><br>5 · Dor voltou 2x no mesmo lugar? Poste vídeo + descrição no grupo.</p></div>`;
+  if(c==="y") g.innerHTML=`<div class="card"><span class="tag">Protocolo pós-dor (amarelo)</span><p>1 · Corte o volume de corrida pela metade; tire ritmo forte e descidas por 3–5 dias.<br><br>2 · Na força, volte às doses da semana anterior e mantenha só os exercícios sem dor. Respeite o ângulo de proteção.<br><br>3 · Mantenha a mobilidade diária.<br><br>4 · Teste de retorno: 15 min de trote leve → dor ≤ 3/10 durante e na manhã seguinte? Retome a progressão.<br><br>5 · Dor voltou 2x no mesmo lugar? Poste vídeo + descrição no grupo.</p></div>`;
   else if(c==="r") g.innerHTML=`<div class="card" style="border-color:rgba(214,69,69,.5)"><span class="tag" style="color:#F0A0A0">Pare e fale com a gente</span><p>Não faça a sessão de força hoje. Descreva a dor (local, quando começou, o que piora) e mande no grupo ou no direct <b style="color:var(--sky)">@vyni.fisio</b>.</p></div>`;
   else if(c==="g") g.innerHTML=`<div class="card"><span class="tag" style="color:#7FDCA9">Tudo certo</span><p>Semáforo verde registrado. Treine e progrida normalmente. 👊</p></div>`;
   else g.innerHTML="";
@@ -645,7 +686,7 @@ function renderReport(){
 /* ================= PROFILE ================= */
 function renderProfile(){
   document.getElementById("profName").textContent=S.name;
-  document.getElementById("profInfo").textContent=`Início: ${br(S.start)} · Semana atual: ${week()} de 8 · Fase ${phase()} (${PHASES[phase()].name})`;
+  document.getElementById("profInfo").textContent=`Início: ${br(S.start)} · Semana atual: ${week()} de 8 · Fase ${phaseOf(week())} (${PHASE_INFO[phaseOf(week())].name})`;
   document.getElementById("profLevel").textContent=`Nível: ${levelName(S.level)} (${S.pts} pts na avaliação)`;
 }
 function resetAll(){ if(confirm("Apagar todos os dados e recomeçar?")){ localStorage.removeItem(KEY); location.reload(); } }
