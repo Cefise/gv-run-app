@@ -419,7 +419,7 @@ let timers = {}; // {id_side: {t0, acc, running, int}}
 function renderAssessInputs(){
   document.getElementById("assessList").innerHTML = ASSESS.map(t=>{
     const vt = VIDEOS_TESTES[t.id];
-    const vbtn = vt ? `<a class="vid" href="${vt}" target="_blank" rel="noopener">▶ ver como fazer o teste</a>` : "";
+    const vbtn = vt ? `<a class="vid" href="#" onclick="event.preventDefault();openVideo('${vt}')">▶ ver como fazer o teste</a>` : "";
     let body = "";
     if(t.type==="reps"){
       body = pairInputs(t.id, t.unit, t.goal);
@@ -616,7 +616,7 @@ function openSession(t){
   if(t!=="M" && S.level!=="int" && LEVEL_NOTE[ph][S.level]) note += `<div class="banner blue" style="margin-top:10px"><b>${levelName(S.level)}:</b> ${LEVEL_NOTE[ph][S.level]}</div>`;
   if(t!=="M") note += `<div class="banner warn" style="margin-top:10px">⚠️ ${SAFETY_NOTE}</div>`;
   nb.innerHTML = note;
-  document.getElementById("sesList").innerHTML = list.map((e,i)=>`<div class="ex" id="ex${i}" onclick="toggleEx(${i})"><div class="box"></div><div style="flex:1"><div class="nm">${e.n}</div><div class="ds">${e.d}</div>${VIDEOS[e.id]?`<a class="vid" href="${VIDEOS[e.id]}" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ ver vídeo do exercício</a>`:""}</div></div>`).join("");
+  document.getElementById("sesList").innerHTML = list.map((e,i)=>`<div class="ex" id="ex${i}" onclick="toggleEx(${i})"><div class="box"></div><div style="flex:1"><div class="nm">${e.n}</div><div class="ds">${e.d}</div>${VIDEOS[e.id]?`<a class="vid" href="#" onclick="event.stopPropagation();event.preventDefault();openVideo('${VIDEOS[e.id]}')">▶ ver vídeo do exercício</a>`:""}</div></div>`).join("");
   updateDoneBtn(list.length); show("vSession");
 }
 function toggleEx(i){
@@ -699,7 +699,24 @@ function boot(){
   else { assessDraft={}; renderAssessInputs(); show("vOnboard"); document.getElementById("nHome").classList.remove("on"); }
 }
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
-boot();
+// ===== player de vídeo embutido =====
+function ytId(url){ if(!url) return ""; const m=url.match(/(?:shorts\/|watch\?v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{6,})/); return m?m[1]:""; }
+function openVideo(url){
+  const id=ytId(url); if(!id){ window.open(url,"_blank"); return; }
+  let ov=document.getElementById("vidOverlay");
+  if(!ov){
+    ov=document.createElement("div"); ov.id="vidOverlay";
+    ov.style.cssText="position:fixed;inset:0;background:rgba(5,12,26,.92);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px";
+    ov.innerHTML='<div style="width:100%;max-width:420px;aspect-ratio:9/16;background:#000;border-radius:16px;overflow:hidden"><iframe id="vidFrame" style="width:100%;height:100%;border:0" allow="autoplay;encrypted-media" allowfullscreen></iframe></div><button style="margin-top:18px;background:#2E6FDB;color:#fff;border:none;border-radius:12px;padding:13px 26px;font-size:16px;font-weight:800" onclick="closeVideo()">Fechar ✕</button>';
+    document.body.appendChild(ov);
+    ov.addEventListener("click",e=>{ if(e.target===ov) closeVideo(); });
+  }
+  document.getElementById("vidFrame").src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0";
+  ov.style.display="flex";
+}
+function closeVideo(){ const ov=document.getElementById("vidOverlay"); if(ov){ document.getElementById("vidFrame").src=""; ov.style.display="none"; } }
+
+boot();;
 </script>
 </body>
 </html>
