@@ -367,12 +367,12 @@ const WEEKS = {
 
 /* ================= ESTADO ================= */
 const KEY = "gvrun_v2";
-let S = load();
+let S = null;
 let curSession = null, curChecks = {};
 let assessDraft = {}, reassessMode = false;
 
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || null }catch(e){ return null } }
-function save(){ localStorage.setItem(KEY, JSON.stringify(S)) }
+function save(){ if(S) GVCloud.save(S); }
 function today(){ return new Date().toISOString().slice(0,10) }
 function br(d){ return d.split("-").reverse().join("/") }
 function week(){ if(!S) return 1; const days=Math.floor((new Date(today())-new Date(S.start))/864e5); return Math.min(8,Math.max(1,Math.floor(days/7)+1)); }
@@ -718,7 +718,11 @@ function openVideo(url){
 }
 function closeVideo(){ const ov=document.getElementById("vidOverlay"); if(ov){ document.getElementById("vidFrame").src=""; ov.style.display="none"; } }
 
-boot();;
+(async function(){
+  await GVCloud.init();      // mostra o login e espera o aluno entrar
+  S = await GVCloud.load();  // carrega o treino da nuvem (ou do cache offline)
+  boot();                    // desenha o app normalmente
+})();
 </script>
 </body>
 </html>
